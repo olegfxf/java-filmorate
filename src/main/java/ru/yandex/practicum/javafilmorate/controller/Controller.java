@@ -77,7 +77,7 @@ public abstract class Controller<E> {
             }
         }
 
-        return null;
+        return obj;
     }
 
     Integer id;
