@@ -21,6 +21,11 @@ public abstract class Controller<E> {
     @GetMapping
     public List<E> findAll() {
         log.info("Выполнен запрос на вывод всех пользователей");
+
+        System.out.println("++++++++++++++++++++++++++++++++++++++++++");
+        objs.values().stream().forEach(e-> System.out.println(e.toString()));
+        System.out.println("++++++++++++++++++++++++++++++++++++++++++");
+
         return objs.values().stream().collect(Collectors.toList());
     }
 
