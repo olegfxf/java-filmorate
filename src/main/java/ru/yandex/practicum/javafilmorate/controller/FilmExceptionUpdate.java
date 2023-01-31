@@ -32,7 +32,8 @@ public class FilmExceptionUpdate {
             }
         }
 
-        throw new FilmUpdateUnknown("Наименование фильма " + film.getName() + " неизвестно");
+        return true;
+        //throw new FilmUpdateUnknown(" Фильм с наименованием " + film.getName() + " неизвестен");
     }
 
 }
