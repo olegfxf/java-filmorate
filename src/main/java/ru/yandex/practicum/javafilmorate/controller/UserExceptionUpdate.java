@@ -5,13 +5,14 @@ import ru.yandex.practicum.javafilmorate.exception.InvalidEmail;
 import ru.yandex.practicum.javafilmorate.exception.UserUpdateUnknown;
 import ru.yandex.practicum.javafilmorate.model.User;
 
+import java.util.HashMap;
 import java.util.HashSet;
 
 @Slf4j
 public class UserExceptionUpdate {
-    public boolean update(HashSet<User> users, User user) throws UserUpdateUnknown {
-        users.stream().forEach(e -> System.out.println(e.getEmail()));
-        System.out.println();
+    public boolean update(HashMap<Integer, User> users, User user) throws UserUpdateUnknown {
+        //users.stream().forEach(e -> System.out.println(e.getEmail()));
+        //System.out.println();
 
         try {
             if (user.getEmail().isEmpty()) {
@@ -21,8 +22,8 @@ public class UserExceptionUpdate {
             System.out.println(exception.getMessage());
         }
 
-        for (User user1 : users) {
-            if (user1.getId() == user.getId()) {
+        for (Integer idUser : users.keySet()) {
+            if (idUser.equals(user.getId())) {
                 log.info("Пользователь " + user.getName() + " обновлен");
                 return true;
             }

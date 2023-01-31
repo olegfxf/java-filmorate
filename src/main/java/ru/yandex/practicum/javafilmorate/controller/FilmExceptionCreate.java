@@ -9,11 +9,12 @@ import ru.yandex.practicum.javafilmorate.exception.FilmWithEmptyName;
 import ru.yandex.practicum.javafilmorate.model.Film;
 
 import java.time.LocalDate;
+import java.util.HashMap;
 import java.util.HashSet;
 
 public class FilmExceptionCreate {
 
-    public boolean create(HashSet<Film> films, Film film) throws FilmEmptyName, FilmWithEmptyName,
+    public boolean create(HashMap<Integer, Film> films, Film film) throws FilmEmptyName, FilmWithEmptyName,
             FilmFailReleaseDate, FilmFailDurationNegative {
 
         if (film.getDescription().length() > 200)

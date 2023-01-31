@@ -6,10 +6,11 @@ import ru.yandex.practicum.javafilmorate.model.Film;
 
 
 import java.time.LocalDate;
+import java.util.HashMap;
 import java.util.HashSet;
 @Slf4j
 public class FilmExceptionUpdate {
-    public boolean update(HashSet<Film> films, Film film) throws FilmEmptyName, FilmWithEmptyName,
+    public boolean update(HashMap<Integer, Film> films, Film film) throws FilmEmptyName, FilmWithEmptyName,
             FilmFailReleaseDate, FilmFailDurationNegative, FilmUpdateUnknown {
 
 
@@ -26,8 +27,8 @@ public class FilmExceptionUpdate {
             throw new FilmFailDurationNegative("Отрицательная продолжительность фильма");
 
 
-        for (Film film1 : films) {
-            if (film1.getId() == film.getId()) {
+        for (Integer idFilm : films.keySet()) {
+            if (idFilm.equals(film.getId())) {
                 return true;
             }
         }

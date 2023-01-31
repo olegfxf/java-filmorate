@@ -5,11 +5,12 @@ import ru.yandex.practicum.javafilmorate.exception.*;
 import ru.yandex.practicum.javafilmorate.model.User;
 
 import java.time.LocalDate;
+import java.util.HashMap;
 import java.util.HashSet;
 
 @Slf4j
 public class UserExceptionCreate {
-    public boolean update(HashSet<User> users, User user) throws InvalidEmailException, UserCreateFailLogin,
+    public boolean create(HashMap<Integer, User> users, User user) throws InvalidEmailException, UserCreateFailLogin,
             UserCreateFailBirthday, CreateUserWithEmptyName, UserCreateFailEmail, UserAlreadyExist {
 
         if (user.getName() == null) {
@@ -23,8 +24,8 @@ public class UserExceptionCreate {
             throw new InvalidEmailException("Вы не ввели email");
 
         if (users.size() != 0) {
-            for (User user1 : users) {
-                if (user1.getId() == user.getId()) {
+            for (Integer idUser : users.keySet()) {
+                if (idUser.equals(user.getId())) {
                     throw new UserAlreadyExist("Пользователь " + user.getBirthday()
                             + " уже существует");
                 }
