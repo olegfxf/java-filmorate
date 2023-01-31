@@ -40,7 +40,7 @@ class UserControllerTest {
     @Test
     void update() throws IOException, InterruptedException {
 
-        Client.http("DELETE", uri, null);
+ //       Client.http("DELETE", uri, null);
         User userCreate = testUser();
         String userSerialized = gson.toJson(userCreate);
         HttpResponse<String> response = Client.http("POST", uri, userSerialized);
@@ -65,7 +65,7 @@ class UserControllerTest {
     @Test
     void create() throws IOException, InterruptedException {
         User userCreate = testUser();
-        Client.http("DELETE", uri, null);
+  //      Client.http("DELETE", uri, null);
         String userSerialized = gson.toJson(userCreate);
         HttpResponse<String> response = Client.http("POST", uri, userSerialized);
         assertTrue(response.statusCode() == 200, "Пост не загрузился");
