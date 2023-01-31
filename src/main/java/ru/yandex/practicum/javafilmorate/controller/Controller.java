@@ -44,8 +44,8 @@ public abstract class Controller<E> {
             UserExceptionCreate createUser = new UserExceptionCreate();
             isCreateUser = createUser.update((HashSet<User>) objs, (User) obj);
         } else if (obj instanceof Film) {
-            FilmExceptionCreate filmExceptionCreate = new FilmExceptionCreate();
-            isCreateFilm = filmExceptionCreate.create((HashSet<Film>) objs, (Film) obj);
+          //  FilmExceptionCreate filmExceptionCreate = new FilmExceptionCreate();
+            //isCreateFilm = filmExceptionCreate.create((HashSet<Film>) objs, (Film) obj);
         }
 //        users.stream().forEach(e -> System.out.println(e.getEmail()));
 //        System.out.println();
