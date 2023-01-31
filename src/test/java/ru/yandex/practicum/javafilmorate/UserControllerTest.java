@@ -32,8 +32,8 @@ class UserControllerTest {
         User userGetAll = testUser();
         userGetAll.setId(998);
         String userSerialized = gson.toJson(userGetAll);
-        HttpResponse<String> response = client.http("POST", uri, userSerialized);
-        response = client.http("GET", uri, null);
+        client.http("POST", uri, userSerialized);
+        HttpResponse<String> response = client.http("GET", uri, null);
         assertTrue(response.statusCode() == 200, "Список пользователей не поступил");
     }
 
@@ -41,7 +41,7 @@ class UserControllerTest {
     @Test
     void update() throws IOException, InterruptedException {
 
-        client.http("DELETE", uri, null);
+//        client.http("DELETE", uri, null);
         User userCreate = testUser();
         String userSerialized = gson.toJson(userCreate);
         HttpResponse<String> response = client.http("POST", uri, userSerialized);
@@ -65,7 +65,7 @@ class UserControllerTest {
     @Test
     void create() throws IOException, InterruptedException {
         User userCreate = testUser();
-        client.http("DELETE", uri, null);
+//        client.http("DELETE", uri, null);
         String userSerialized = gson.toJson(userCreate);
         HttpResponse<String> response = client.http("POST", uri, userSerialized);
         assertTrue(response.statusCode() == 200, "Пост не загрузился");
