@@ -60,6 +60,7 @@ class UserControllerTest {
         userUpdate.setId(id);
         userController.update(userUpdate);
         ArrayList<User> users = (ArrayList<User>) userController.findAll().stream().collect(Collectors.toList());
+        System.out.println(users + "UUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUU");
         assertEquals(userUpdateName, users.get(0).getName(), "Обновление пользователя прошло неудачно");
 
         userController.deleteAll();
