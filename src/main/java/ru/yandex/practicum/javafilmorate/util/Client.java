@@ -7,7 +7,7 @@ import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 
 public class Client {
-    public static HttpResponse<String> http(String method, URI uri,
+    public HttpResponse<String> http(String method, URI uri,
                                             String requestBody) throws IOException, InterruptedException {
         HttpRequest request = null;
         if (method.equals("GET"))
