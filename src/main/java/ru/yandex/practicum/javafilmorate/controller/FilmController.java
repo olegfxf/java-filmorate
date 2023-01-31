@@ -5,7 +5,7 @@ import org.springframework.web.bind.annotation.RestController;
 import ru.yandex.practicum.javafilmorate.model.Film;
 
 
-//@RequestMapping(value = "/films")
-//@RestController
+@RequestMapping("/films")
+@RestController
 public class FilmController extends Controller<Film>{
 }

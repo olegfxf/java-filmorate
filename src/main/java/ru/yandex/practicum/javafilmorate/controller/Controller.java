@@ -1,9 +1,12 @@
 package ru.yandex.practicum.javafilmorate.controller;
 
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ru.yandex.practicum.javafilmorate.exception.*;
 import ru.yandex.practicum.javafilmorate.model.Film;
+import ru.yandex.practicum.javafilmorate.model.Uid;
 import ru.yandex.practicum.javafilmorate.model.User;
 
 import java.util.HashMap;
@@ -16,15 +19,14 @@ import java.util.stream.Collectors;
 public abstract class Controller<E> {
     private final HashMap<Integer, E> objs = new HashMap<>();
 
-    @GetMapping
+
     public List<E> findAll() {
-        log.info("Выполнен запрос на вывод всех пользователей");
-
-        System.out.println("++++++++++++++++++++++++++++++++++++++++++");
-        objs.values().stream().forEach(e-> System.out.println(e.toString()));
-        System.out.println("++++++++++++++++++++++++++++++++++++++++++");
-
         return objs.values().stream().collect(Collectors.toList());
+    }
+    @GetMapping
+    public ResponseEntity<List<E>> getAllFilms() {
+        log.info("Выполнен запрос на вывод всех пользователей");
+        return new ResponseEntity<>(objs.values().stream().collect(Collectors.toList()), HttpStatus.OK);
     }
 
 
@@ -67,6 +69,7 @@ public abstract class Controller<E> {
 
         boolean isCreateUser = false;
         boolean isCreateFilm = false;
+        id = Uid.getUid();
 
         if (obj instanceof User) {
             UserExceptionCreate userExceptionCreate = new UserExceptionCreate();

@@ -12,14 +12,10 @@ import ru.yandex.practicum.javafilmorate.util.Client;
 
 import java.io.IOException;
 import java.net.URI;
-import java.net.http.HttpResponse;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.stream.Collectors;
-
-//import static jdk.internal.org.jline.reader.impl.LineReaderImpl.CompletionType.List;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 import static ru.yandex.practicum.javafilmorate.model.User.testUser;
 
 class UserControllerTest {
