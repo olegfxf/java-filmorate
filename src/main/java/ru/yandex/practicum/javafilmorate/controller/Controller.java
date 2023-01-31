@@ -62,7 +62,7 @@ public abstract class Controller<E> {
         return ResponseEntity.ok(obj);
     }
 
-    Integer id;
+    Integer id = -1;
     @PostMapping
     public E create(@RequestBody E obj) throws UserUpdateUnknown, UserCreateFailLogin,
             CreateUserWithEmptyName, UserCreateFailEmail, UserCreateFailBirthday,
@@ -71,7 +71,7 @@ public abstract class Controller<E> {
 
         boolean isCreateUser = false;
         boolean isCreateFilm = false;
-        id = Uid.getUid();
+
 
         if (obj instanceof User) {
             UserExceptionCreate userExceptionCreate = new UserExceptionCreate();
@@ -82,6 +82,8 @@ public abstract class Controller<E> {
             isCreateFilm = filmExceptionCreate.create((HashMap<Integer, Film>) objs, (Film) obj);
             id = ((Film) obj).getId();
         }
+
+        if (id == -1) id = Uid.getUid();
 
 
         if (isCreateUser || isCreateFilm)
