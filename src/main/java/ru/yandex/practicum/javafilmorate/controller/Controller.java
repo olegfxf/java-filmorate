@@ -41,6 +41,7 @@ public abstract class Controller<E> {
                 ((HashMap<Integer, User>) objs).remove(id);
                 ((HashMap<Integer, User>) objs).put(id, (User) obj);
                 log.info("Пользователь " + ((User) obj).getName() + " обновлен");
+                return obj;
 
 //                for (User user1 : (HashSet<User>) objs) {
 //                    if (user1.getId() == ((User) obj).getId()) {
@@ -59,6 +60,7 @@ public abstract class Controller<E> {
                 ((HashMap<Integer, Film>) objs).remove(id);
                 ((HashMap<Integer, Film>) objs).put(id, (Film) obj);
                 log.info("Фильм " + ((Film)obj).getName() + " обновлен");
+                return obj;
 //                for (Film film1 : (HashSet<Film>)objs){
 //                    if (film1.getId() == ((Film)obj).getId()) {
 //                        objs.remove(film1);
