@@ -4,6 +4,9 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
 import ru.yandex.practicum.javafilmorate.custom.JsonDateDeserializer;
 import ru.yandex.practicum.javafilmorate.custom.JsonDateSerializer;
 import ru.yandex.practicum.javafilmorate.util.Random;
@@ -11,7 +14,9 @@ import ru.yandex.practicum.javafilmorate.util.Random;
 import java.time.LocalDate;
 
 
-@Data
+@Getter
+@Setter
+@ToString
 public class User {
     private int id = Uid.getUid();
     private String login;

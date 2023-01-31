@@ -1,12 +1,16 @@
 package ru.yandex.practicum.javafilmorate.model;
 
 import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
 import ru.yandex.practicum.javafilmorate.util.Random;
 
 import java.time.LocalDate;
 
-@Data
-
+@Getter
+@Setter
+@ToString
 public class Film {
     private int id = Uid.getUid();
     private String name;
