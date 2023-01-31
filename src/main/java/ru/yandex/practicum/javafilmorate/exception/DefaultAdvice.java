@@ -16,6 +16,7 @@ public class DefaultAdvice {
             UserCreateFailEmail.class,
             CreateUserWithEmptyName.class,
             UserCreateFailBirthday.class,
+            UserCreateFailLogin.class,
 
             FilmEmptyName.class,
             FilmFailDurationNegative.class,

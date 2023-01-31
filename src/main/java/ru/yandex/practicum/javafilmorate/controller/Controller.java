@@ -13,7 +13,7 @@ import java.util.HashSet;
 @RestController
 @Slf4j
 public abstract class Controller<E> {
-    protected final HashSet<E> objs = new HashSet<>();
+    private final HashSet<E> objs = new HashSet<>();
 
     @GetMapping
     public HashSet<E> findAll() {
@@ -23,9 +23,38 @@ public abstract class Controller<E> {
 
 
     @PutMapping
-    public E update(@RequestBody E obj) throws UserUpdateUnknown,
-            FilmFailReleaseDate, FilmWithEmptyName, FilmFailDurationNegative,
-            FilmEmptyName, FilmUpdateUnknown {
+    public E update(@RequestBody E obj) throws UserUpdateUnknown, FilmFailReleaseDate, FilmWithEmptyName, FilmFailDurationNegative, FilmEmptyName, FilmUpdateUnknown {
+
+//        users.stream().forEach(e -> System.out.println(e.getEmail()));
+//        System.out.println();
+        boolean isUpdateUser = false;
+        boolean isUpdateFilm = false;
+
+        if (obj instanceof User) {
+            UserExceptionUpdate updateUser = new UserExceptionUpdate();
+            isUpdateUser = updateUser.update((HashSet<User>) objs, (User) obj);
+            if (isUpdateUser)
+                for (User user1 : (HashSet<User>)objs){
+                    if (user1.getId() == ((User)obj).getId()) {
+                        objs.remove(user1);
+                        objs.add(obj);
+                        log.info("Пользователь " + ((User)obj).getName() + " обновлен");
+                        return obj;
+                    }
+                }
+        } else if (obj instanceof Film) {
+            FilmExceptionUpdate filmExceptionUpdate = new FilmExceptionUpdate();
+            isUpdateFilm = filmExceptionUpdate.update((HashSet<Film>) objs, (Film) obj);
+            if (isUpdateFilm)
+                for (Film film1 : (HashSet<Film>)objs){
+                    if (film1.getId() == ((Film)obj).getId()) {
+                        objs.remove(film1);
+                        objs.add(obj);
+                        log.info("Фильм " + ((Film)obj).getName() + " обновлен");
+                        return obj;
+                    }
+                }
+        }
 
         return null;
     }
@@ -36,7 +65,7 @@ public abstract class Controller<E> {
             CreateUserWithEmptyName, UserCreateFailEmail, UserCreateFailBirthday,
             UserAlreadyExist, InvalidEmailException, FilmFailReleaseDate, FilmWithEmptyName,
             FilmFailDurationNegative, FilmEmptyName {
-        System.out.println(obj + "  >>>>>");
+        System.out.println(obj + "  >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
         boolean isCreateUser = false;
         boolean isCreateFilm = false;
 
@@ -44,8 +73,8 @@ public abstract class Controller<E> {
             UserExceptionCreate createUser = new UserExceptionCreate();
             isCreateUser = createUser.update((HashSet<User>) objs, (User) obj);
         } else if (obj instanceof Film) {
-          //  FilmExceptionCreate filmExceptionCreate = new FilmExceptionCreate();
-            //isCreateFilm = filmExceptionCreate.create((HashSet<Film>) objs, (Film) obj);
+            FilmExceptionCreate filmExceptionCreate = new FilmExceptionCreate();
+            isCreateFilm = filmExceptionCreate.create((HashSet<Film>) objs, (Film) obj);
         }
 //        users.stream().forEach(e -> System.out.println(e.getEmail()));
 //        System.out.println();
