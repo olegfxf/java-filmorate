@@ -13,6 +13,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import static org.springframework.http.ResponseEntity.ok;
+
 
 @RestController
 @Slf4j
@@ -60,7 +62,7 @@ public abstract class Controller<E> {
                 //return objs.get(id);
             }
         }
-        return new ResponseEntity<>(obj, HttpStatus.OK);
+        return ResponseEntity.ok(obj);
     }
 
     Integer id;
