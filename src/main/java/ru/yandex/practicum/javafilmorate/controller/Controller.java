@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 
-@RequestMapping(value = "/users")
+//@RequestMapping(value = "/users")
 @RestController
 @Slf4j
 public abstract class Controller<E> {
