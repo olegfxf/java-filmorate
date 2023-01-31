@@ -4,10 +4,9 @@ import lombok.extern.slf4j.Slf4j;
 import ru.yandex.practicum.javafilmorate.exception.*;
 import ru.yandex.practicum.javafilmorate.model.Film;
 
-
 import java.time.LocalDate;
 import java.util.HashMap;
-import java.util.HashSet;
+
 @Slf4j
 public class FilmExceptionUpdate {
     public boolean update(HashMap<Integer, Film> films, Film film) throws FilmEmptyName, FilmWithEmptyName,

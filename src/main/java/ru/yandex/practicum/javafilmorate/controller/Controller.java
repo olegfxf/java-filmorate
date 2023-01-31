@@ -32,7 +32,7 @@ public abstract class Controller<E> {
 
 
     @PutMapping
-    public ResponseEntity<E> update(@RequestBody E obj) throws UserUpdateUnknown, FilmFailReleaseDate, FilmWithEmptyName, FilmFailDurationNegative, FilmEmptyName, FilmUpdateUnknown {
+    public E update(@RequestBody E obj) throws UserUpdateUnknown, FilmFailReleaseDate, FilmWithEmptyName, FilmFailDurationNegative, FilmEmptyName, FilmUpdateUnknown {
         boolean isUpdateUser = false;
         boolean isUpdateFilm = false;
 
@@ -44,8 +44,8 @@ public abstract class Controller<E> {
                 ((HashMap<Integer, User>) objs).remove(id);
                 ((HashMap<Integer, User>) objs).put(id, (User) obj);
                 log.info("Пользователь " + ((User) obj).getName() + " обновлен");
-                return new ResponseEntity<>(obj, HttpStatus.OK);
-                //return obj;
+                //return new ResponseEntity<>(obj, HttpStatus.OK);
+                return obj;
             }
         } else if (obj instanceof Film) {
             FilmExceptionUpdate filmExceptionUpdate = new FilmExceptionUpdate();
@@ -55,8 +55,8 @@ public abstract class Controller<E> {
                 ((HashMap<Integer, Film>) objs).remove(id);
                 ((HashMap<Integer, Film>) objs).put(id, (Film) obj);
                 log.info("Фильм " + ((Film)obj).getName() + " обновлен");
-                return new ResponseEntity<>(obj, HttpStatus.OK);
-                //return objs.get(id);
+                //return new ResponseEntity<>(obj, HttpStatus.OK);
+                return objs.get(id);
             }
         }
         return null;
