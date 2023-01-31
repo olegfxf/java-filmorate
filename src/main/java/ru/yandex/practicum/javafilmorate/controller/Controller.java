@@ -65,7 +65,7 @@ public abstract class Controller<E> {
                 ((HashMap<Integer, Film>) objs).remove(id);
                 ((HashMap<Integer, Film>) objs).put(id, (Film) obj);
                 log.info("Фильм " + ((Film)obj).getName() + " обновлен");
-                return obj;
+                return objs.get(id);
 //                for (Film film1 : (HashSet<Film>)objs){
 //                    if (film1.getId() == ((Film)obj).getId()) {
 //                        objs.remove(film1);
