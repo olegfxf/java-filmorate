@@ -15,15 +15,15 @@ public class DefaultAdvice {
  //           UserAlreadyExist1.class,
  //           InvalidEmailException1.class,
 
-            CreateUserWithEmptyName.class,
+            //CreateUserWithEmptyName.class,
 
 
 
-            FilmEmptyName.class,
-            FilmFailDurationNegative.class,
-            FilmFailReleaseDate.class,
-            FilmWithEmptyName.class,
-            FilmUpdateUnknown.class
+            //FilmEmptyName.class,
+            //FilmFailDurationNegative.class,
+            //FilmFailReleaseDate.class,
+            //FilmWithEmptyName1.class,
+            //FilmUpdateUnknown.class
     })
     public ResponseEntity<Response> handleException(Exception e) {
         log.error(e.getMessage(), e);
