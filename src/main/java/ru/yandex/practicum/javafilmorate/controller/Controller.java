@@ -21,8 +21,9 @@ import static org.springframework.http.ResponseEntity.ok;
 public abstract class Controller<E> {
     private final HashMap<Integer, E> objs = new HashMap<>();
 
-
-
+    protected HashMap<Integer, E> getObjs() {
+        return objs;
+    }
 
     @GetMapping
     public ResponseEntity<List<E>> getAllFilms() {
@@ -32,8 +33,9 @@ public abstract class Controller<E> {
 
 
     Integer id = -1;
+
     @PostMapping
-    public E create(@RequestBody E obj)  {
+    public E create(@RequestBody E obj) throws ValidationException {
 
 //        boolean isCreateUser = false;
 //        boolean isCreateFilm = false;
@@ -58,17 +60,14 @@ public abstract class Controller<E> {
 //        return obj;
 
 
-
-
         if (obj instanceof User) {
             id = ((User) obj).getId();
-        }
-        else if (obj instanceof Film)
+        } else if (obj instanceof Film)
             id = ((Film) obj).getId();
 
-            objs.put(id, obj);
+        objs.put(id, obj);
 
-            return obj;
+        return obj;
 
 
     }
@@ -97,14 +96,12 @@ public abstract class Controller<E> {
                 Integer id = ((Film) obj).getId();
                 ((HashMap<Integer, Film>) objs).remove(id);
                 ((HashMap<Integer, Film>) objs).put(id, (Film) obj);
-                log.info("Фильм " + ((Film)obj).getName() + " обновлен");
+                log.info("Фильм " + ((Film) obj).getName() + " обновлен");
                 //return new ResponseEntity<>(obj, HttpStatus.OK);
             }
         }
         return ResponseEntity.ok(obj);
     }
-
-
 
 
     public List<E> findAll() {

@@ -18,7 +18,8 @@ import java.util.HashMap;
 @Slf4j
 public class UserController extends Controller<User> {
     @PostMapping
-    public User create(@Valid @RequestBody final User user) {
+    public User create(@Valid @RequestBody final User user) throws ValidationException {
+        validationCreate(user);
         log.info("Creating user {}", user);
         return super.create(user);
     }
@@ -27,47 +28,48 @@ public class UserController extends Controller<User> {
 
 
 
-//    // TODO валидация
-//    void validationCreate(HashMap<Integer, User> users, User user) throws ValidationException {
-////        if(user.getName() == null || user.getName().isEmpty()){
-////            throw new ValidationException("User name invalid");
-////        }
-////
-//
-//        if (user.getName() == null) {
-//            String userName = user.getLogin();
-//            user.setName(userName);
-//            log.info("Новое имя пользователя стало: " + userName);
+    // TODO валидация
+    void validationCreate(User user) throws ValidationException {
+//        if(user.getName() == null || user.getName().isEmpty()){
+//            throw new ValidationException("User name invalid");
 //        }
 //
-//
-//        if (user.getEmail().isEmpty())
-//            throw new ValidationException("Вы не ввели email");
-//
-//        if (users.size() != 0) {
-//            for (Integer idUser : users.keySet()) {
-//                if (idUser.equals(user.getId())) {
-//                    throw new ValidationException("Пользователь " + user.getBirthday()
-//                            + " уже существует");
-//                }
-//            }
-//        }
-//
-//        if (user.getEmail().isEmpty() || !user.getEmail().contains("@"))
-//            throw new ValidationException("Неправильный email");
-//
-//        if (user.getName().isBlank())
-//            throw new ValidationException("Введите имя пользователя");
-//
-//        if (user.getBirthday().isAfter(LocalDate.now()))
-//            throw new ValidationException("Неправильная дата рождения");
-//
-//        if (user.getLogin().isEmpty() || user.getLogin().contains(" "))
-//            throw new ValidationException("Логин содержит пробел");
-//
-//
-//        log.info("Пользователь с именем " + user.getName() + " успешно добавлен");
-//    }
+        HashMap<Integer, User> users = super.getObjs();
+
+        if (user.getName() == null) {
+            String userName = user.getLogin();
+            user.setName(userName);
+            log.info("Новое имя пользователя стало: " + userName);
+        }
+
+
+        if (user.getEmail().isEmpty())
+            throw new ValidationException("Вы не ввели email");
+
+        if (users.size() != 0) {
+            for (Integer idUser : users.keySet()) {
+                if (idUser.equals(user.getId())) {
+                    throw new ValidationException("Пользователь " + user.getBirthday()
+                            + " уже существует");
+                }
+            }
+        }
+
+        if (user.getEmail().isEmpty() || !user.getEmail().contains("@"))
+            throw new ValidationException("Неправильный email");
+
+        if (user.getName().isBlank())
+            throw new ValidationException("Введите имя пользователя");
+
+        if (user.getBirthday().isAfter(LocalDate.now()))
+            throw new ValidationException("Неправильная дата рождения");
+
+        if (user.getLogin().isEmpty() || user.getLogin().contains(" "))
+            throw new ValidationException("Логин содержит пробел");
+
+
+        log.info("Пользователь с именем " + user.getName() + " успешно добавлен");
+    }
 
 
     // TODO валидация
