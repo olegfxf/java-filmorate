@@ -65,6 +65,8 @@ public abstract class Controller<E> {
         } else if (obj instanceof Film)
             id = ((Film) obj).getId();
 
+//        id = (obj instanceof User)?((User) obj).getId():((Film) obj).getId();
+
         objs.put(id, obj);
 
         return obj;
@@ -75,32 +77,40 @@ public abstract class Controller<E> {
 
     @PutMapping
     public ResponseEntity update(@RequestBody E obj) throws ValidationException {
-        boolean isUpdateUser = false;
-        boolean isUpdateFilm = false;
+//        boolean isUpdateUser = false;
+//        boolean isUpdateFilm = false;
+//
+//        if (obj instanceof User) {
+//            UserExceptionUpdate updateUser = new UserExceptionUpdate();
+//            isUpdateUser = updateUser.update((HashMap<Integer, User>) objs, (User) obj);
+//            if (isUpdateUser) {
+//                Integer id = ((User) obj).getId();
+//                ((HashMap<Integer, User>) objs).remove(id);
+//                ((HashMap<Integer, User>) objs).put(id, (User) obj);
+//                log.info("Пользователь " + ((User) obj).getName() + " обновлен");
+//                //return new ResponseEntity<>(obj, HttpStatus.OK);
+//
+//            }
+//        } else if (obj instanceof Film) {
+//            FilmExceptionUpdate filmExceptionUpdate = new FilmExceptionUpdate();
+//            isUpdateFilm = filmExceptionUpdate.update((HashMap<Integer, Film>) objs, (Film) obj);
+//            if (isUpdateFilm) {
+//                Integer id = ((Film) obj).getId();
+//                ((HashMap<Integer, Film>) objs).remove(id);
+//                ((HashMap<Integer, Film>) objs).put(id, (Film) obj);
+//                log.info("Фильм " + ((Film) obj).getName() + " обновлен");
+//                //return new ResponseEntity<>(obj, HttpStatus.OK);
+//            }
+//        }
+//        return ResponseEntity.ok(obj);
 
-        if (obj instanceof User) {
-            UserExceptionUpdate updateUser = new UserExceptionUpdate();
-            isUpdateUser = updateUser.update((HashMap<Integer, User>) objs, (User) obj);
-            if (isUpdateUser) {
-                Integer id = ((User) obj).getId();
-                ((HashMap<Integer, User>) objs).remove(id);
-                ((HashMap<Integer, User>) objs).put(id, (User) obj);
-                log.info("Пользователь " + ((User) obj).getName() + " обновлен");
-                //return new ResponseEntity<>(obj, HttpStatus.OK);
+        id = (obj instanceof User)?((User)obj).getId():((Film)obj).getId();
 
-            }
-        } else if (obj instanceof Film) {
-            FilmExceptionUpdate filmExceptionUpdate = new FilmExceptionUpdate();
-            isUpdateFilm = filmExceptionUpdate.update((HashMap<Integer, Film>) objs, (Film) obj);
-            if (isUpdateFilm) {
-                Integer id = ((Film) obj).getId();
-                ((HashMap<Integer, Film>) objs).remove(id);
-                ((HashMap<Integer, Film>) objs).put(id, (Film) obj);
-                log.info("Фильм " + ((Film) obj).getName() + " обновлен");
-                //return new ResponseEntity<>(obj, HttpStatus.OK);
-            }
-        }
+        objs.remove(id);
+        objs.put(id, obj);
+
         return ResponseEntity.ok(obj);
+
     }
 
 

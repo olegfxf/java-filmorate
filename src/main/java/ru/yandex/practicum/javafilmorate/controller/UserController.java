@@ -1,10 +1,9 @@
 package ru.yandex.practicum.javafilmorate.controller;
 
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+import ru.yandex.practicum.javafilmorate.exception.InvalidEmail;
 import ru.yandex.practicum.javafilmorate.exception.ValidationException;
 import ru.yandex.practicum.javafilmorate.model.Film;
 import ru.yandex.practicum.javafilmorate.model.User;
@@ -25,6 +24,14 @@ public class UserController extends Controller<User> {
     }
 
 // TODO методы контроллера
+
+
+    @PutMapping
+    public ResponseEntity update(@Valid @RequestBody final User user) throws ValidationException {
+        validationUpdate(user);
+        log.info("Update user {}", user);
+        return super.update(user);
+    }
 
 
 
@@ -67,11 +74,34 @@ public class UserController extends Controller<User> {
         if (user.getLogin().isEmpty() || user.getLogin().contains(" "))
             throw new ValidationException("Логин содержит пробел");
 
-
         log.info("Пользователь с именем " + user.getName() + " успешно добавлен");
     }
 
 
-    // TODO валидация
+
+    void validationUpdate(User user) throws ValidationException {
+        HashMap<Integer, User> users = super.getObjs();
+        try {
+            if (user.getEmail().isEmpty()) {
+                throw new InvalidEmail("Вы не ввели email");
+            }
+        } catch (InvalidEmail exception) {
+            System.out.println(exception.getMessage());
+        }
+
+        for (Integer idUser : users.keySet()) {
+            if (idUser.equals(user.getId())) {
+                log.info("Пользователь " + user.getName() + " обновлен");
+                return;
+            }
+        }
+
+        throw new ValidationException("Пользователь " + user.getName() + " неизвестен");
+
+    }
+
+
+
+
 
 }
