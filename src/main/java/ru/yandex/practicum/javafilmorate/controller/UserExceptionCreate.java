@@ -11,7 +11,7 @@ import java.util.HashSet;
 @Slf4j
 public class UserExceptionCreate {
     public boolean create(HashMap<Integer, User> users, User user) throws InvalidEmailException, UserCreateFailLogin,
-            UserCreateFailBirthday, CreateUserWithEmptyName, UserCreateFailEmail, UserAlreadyExist {
+            UserCreateFailBirthday, CreateUserWithEmptyName, UserCreateFailEmail, UserAlreadyExist, ValidationException {
 
         if (user.getName() == null) {
             String userName = user.getLogin();
@@ -33,16 +33,16 @@ public class UserExceptionCreate {
         }
 
         if (user.getEmail().isEmpty() || !user.getEmail().contains("@"))
-            throw new UserCreateFailEmail("Неправильный email");
+            throw new  ValidationException("Неправильный email");
 
         if (user.getName().isBlank())
-            throw new CreateUserWithEmptyName("Введите имя пользователя");
+            throw new  ValidationException("Введите имя пользователя");
 
         if (user.getBirthday().isAfter(LocalDate.now()))
-            throw new UserCreateFailBirthday("Неправильная дата рождения");
+            throw new  ValidationException("Неправильная дата рождения");
 
         if (user.getLogin().isEmpty() || user.getLogin().contains(" "))
-            throw new UserCreateFailLogin("Логин содержит пробел");
+            throw new  ValidationException("Логин содержит пробел");
 
 
         log.info("Пользователь с именем " + user.getName() + " успешно добавлен");

@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 public class DefaultAdvice {
 
     @ExceptionHandler({
+            ValidationException.class,
             UserAlreadyExist.class,
             InvalidEmailException.class,
             UserCreateFailEmail.class,

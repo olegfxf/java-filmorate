@@ -64,7 +64,7 @@ public abstract class Controller<E> {
 
     @PutMapping
     public ResponseEntity update(@RequestBody E obj) throws UserUpdateUnknown, FilmFailReleaseDate,
-            FilmWithEmptyName, FilmFailDurationNegative, FilmEmptyName, FilmUpdateUnknown {
+            FilmWithEmptyName, FilmFailDurationNegative, FilmEmptyName, FilmUpdateUnknown, ValidationException {
         boolean isUpdateUser = false;
         boolean isUpdateFilm = false;
 
