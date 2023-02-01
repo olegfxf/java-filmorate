@@ -53,7 +53,6 @@ public abstract class Controller<E> {
         objs.put(id, obj);
 
         return ResponseEntity.ok(obj);
-
     }
 
 

@@ -87,6 +87,7 @@ public class UserController extends Controller<User> {
             }
         }
 
+        deleteAll();
         throw new ValidationException("Пользователь " + user.getName() + " неизвестен");
     }
 
