@@ -35,31 +35,36 @@ public abstract class Controller<E> {
     @PostMapping
     public E create(@RequestBody E obj) throws ValidationException {
 
-//        boolean isCreateUser = false;
-//        boolean isCreateFilm = false;
-//
-//
-//        if (obj instanceof User) {
-//            UserExceptionCreate userExceptionCreate = new UserExceptionCreate();
-//            isCreateUser = userExceptionCreate.create((HashMap<Integer, User>) objs, (User) obj);
-//            id = ((User) obj).getId();
-//        } else if (obj instanceof Film) {
-//            FilmExceptionCreate filmExceptionCreate = new FilmExceptionCreate();
-//            isCreateFilm = filmExceptionCreate.create((HashMap<Integer, Film>) objs, (Film) obj);
-//            id = ((Film) obj).getId();
-//        }
-//
-//        if (id == -1) id = Uid.getUid();
-//
-//
-//        if (isCreateUser || isCreateFilm)
-        //id = Uid.getUid();
-        if (obj instanceof User)
-            id = ((User) obj).getId();
-        else if (obj instanceof Film)
-            id = ((Film) obj).getId();
+        boolean isCreateUser = false;
+        boolean isCreateFilm = false;
 
+
+        if (obj instanceof User) {
+            UserExceptionCreate userExceptionCreate = new UserExceptionCreate();
+            isCreateUser = userExceptionCreate.create((HashMap<Integer, User>) objs, (User) obj);
+            id = ((User) obj).getId();
+        } else if (obj instanceof Film) {
+            FilmExceptionCreate filmExceptionCreate = new FilmExceptionCreate();
+            isCreateFilm = filmExceptionCreate.create((HashMap<Integer, Film>) objs, (Film) obj);
+            id = ((Film) obj).getId();
+        }
+
+        if (id == -1) id = Uid.getUid();
+
+
+        if (isCreateUser || isCreateFilm)
             objs.put(id, obj);
+
+
+
+
+//        if (obj instanceof User) {
+//            id = ((User) obj).getId();
+//        }
+//        else if (obj instanceof Film)
+//            id = ((Film) obj).getId();
+//
+//            objs.put(id, obj);
 
         return obj;
     }

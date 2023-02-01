@@ -10,7 +10,7 @@ import ru.yandex.practicum.javafilmorate.model.Film;
 import javax.validation.Valid;
 import javax.validation.ValidationException;
 
-
+@RequestMapping("/films")
 @RestController
 @Slf4j
 public class FilmController extends Controller<Film>{
