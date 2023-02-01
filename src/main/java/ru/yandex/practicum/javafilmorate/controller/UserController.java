@@ -5,7 +5,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ru.yandex.practicum.javafilmorate.exception.InvalidEmail;
 import ru.yandex.practicum.javafilmorate.exception.ValidationException;
-import ru.yandex.practicum.javafilmorate.model.Film;
 import ru.yandex.practicum.javafilmorate.model.User;
 
 import javax.validation.Valid;
@@ -23,9 +22,6 @@ public class UserController extends Controller<User> {
         return super.create(user);
     }
 
-// TODO методы контроллера
-
-
     @PutMapping
     public ResponseEntity update(@Valid @RequestBody final User user) throws ValidationException {
         validationUpdate(user);
@@ -33,9 +29,8 @@ public class UserController extends Controller<User> {
         return super.update(user);
     }
 
+// TODO методы контроллера
 
-
-    // TODO валидация
     void validationCreate(User user) throws ValidationException {
 //        if(user.getName() == null || user.getName().isEmpty()){
 //            throw new ValidationException("User name invalid");
@@ -48,7 +43,6 @@ public class UserController extends Controller<User> {
             user.setName(userName);
             log.info("Новое имя пользователя стало: " + userName);
         }
-
 
         if (user.getEmail().isEmpty())
             throw new ValidationException("Вы не ввели email");
@@ -77,8 +71,6 @@ public class UserController extends Controller<User> {
         log.info("Пользователь с именем " + user.getName() + " успешно добавлен");
     }
 
-
-
     void validationUpdate(User user) throws ValidationException {
         HashMap<Integer, User> users = super.getObjs();
         try {
@@ -97,11 +89,7 @@ public class UserController extends Controller<User> {
         }
 
         throw new ValidationException("Пользователь " + user.getName() + " неизвестен");
-
     }
 
-
-
-
-
+    // TODO валидация
 }

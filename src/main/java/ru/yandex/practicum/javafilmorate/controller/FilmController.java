@@ -34,10 +34,6 @@ public class FilmController extends Controller<Film>{
 // TODO методы контроллера
 
     void validationCreate(Film film) throws ValidationException {
-//        if(film.getName() == null || film.getName().isEmpty()){
-//            throw new ValidationException("Film name invalid");
-//        }
-
         if (film.getDescription().length() > 200)
             throw new ru.yandex.practicum.javafilmorate.exception.ValidationException("Описание фильма содержит больше 200 символов");
 
@@ -67,16 +63,14 @@ public class FilmController extends Controller<Film>{
         if (film.getDuration() < 0)
             throw new  ValidationException("Отрицательная продолжительность фильма");
 
-
         for (Integer idFilm : films.keySet()) {
             if (idFilm.equals(film.getId())) {
                 return;
             }
         }
+
+        //throw new ValidationException(" Фильм с наименованием " + film.getName() + " неизвестен");
     }
-
-
-
 
     // TODO валидация
 }
