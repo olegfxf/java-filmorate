@@ -5,11 +5,11 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import ru.yandex.practicum.javafilmorate.exception.ValidationException;
 import ru.yandex.practicum.javafilmorate.model.Film;
 import ru.yandex.practicum.javafilmorate.model.User;
 
 import javax.validation.Valid;
-import javax.validation.ValidationException;
 import java.time.LocalDate;
 import java.util.HashMap;
 
@@ -17,16 +17,16 @@ import java.util.HashMap;
 @RestController
 @Slf4j
 public class UserController extends Controller<User> {
-//    @PostMapping("/users")
-//    public User create(@Valid @RequestBody final User user) throws ru.yandex.practicum.javafilmorate.exception.ValidationException {
-//        log.info("Creating user {}", user);
-//        return super.create(user);
-//    }
-//
-//// TODO методы контроллера
-//
-//
-//
+    @PostMapping
+    public User create(@Valid @RequestBody final User user) {
+        log.info("Creating user {}", user);
+        return super.create(user);
+    }
+
+// TODO методы контроллера
+
+
+
 //    // TODO валидация
 //    void validationCreate(HashMap<Integer, User> users, User user) throws ValidationException {
 ////        if(user.getName() == null || user.getName().isEmpty()){
@@ -68,8 +68,8 @@ public class UserController extends Controller<User> {
 //
 //        log.info("Пользователь с именем " + user.getName() + " успешно добавлен");
 //    }
-//
-//
-//    // TODO валидация
+
+
+    // TODO валидация
 
 }
