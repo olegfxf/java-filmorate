@@ -10,7 +10,7 @@ import java.util.HashSet;
 
 @Slf4j
 public class UserExceptionCreate {
-    public boolean create(HashMap<Integer, User> users, User user) throws InvalidEmailException, UserAlreadyExist,
+    public boolean create(HashMap<Integer, User> users, User user) throws UserAlreadyExist,
             ValidationException {
 
         if (user.getName() == null) {
@@ -21,7 +21,7 @@ public class UserExceptionCreate {
 
 
         if (user.getEmail().isEmpty())
-            throw new InvalidEmailException("Вы не ввели email");
+            throw new ValidationException("Вы не ввели email");
 
         if (users.size() != 0) {
             for (Integer idUser : users.keySet()) {
