@@ -3,10 +3,7 @@ package ru.yandex.practicum.javafilmorate.model;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
 import ru.yandex.practicum.javafilmorate.custom.JsonDateDeserializer;
 import ru.yandex.practicum.javafilmorate.custom.JsonDateSerializer;
 import ru.yandex.practicum.javafilmorate.util.Random;
@@ -17,17 +14,19 @@ import java.time.LocalDate;
 @Getter
 @Setter
 @ToString
+@NoArgsConstructor
+@AllArgsConstructor
 public class User {
     private int id = Uid.getUid();
     private String login;
     private String name;
     private String email;
-    @JsonFormat(pattern="yyyy-MM-dd")
+    @JsonFormat(pattern = "yyyy-MM-dd")
     @JsonSerialize(using = JsonDateSerializer.class)
     @JsonDeserialize(using = JsonDateDeserializer.class)
     private LocalDate birthday;
 
-    public static User testUser(){
+    public static User testUser() {
         User user = new User();
         user.setId(Uid.getUid());
         user.setLogin(Random.string(5));

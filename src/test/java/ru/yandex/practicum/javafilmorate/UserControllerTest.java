@@ -31,7 +31,7 @@ class UserControllerTest {
 
 
     @Test
-    void findAll() throws IOException, InterruptedException, FilmFailReleaseDate, UserCreateFailLogin, FilmWithEmptyName, CreateUserWithEmptyName, UserCreateFailEmail, FilmFailDurationNegative, UserCreateFailBirthday, UserAlreadyExist, FilmEmptyName, UserUpdateUnknown, InvalidEmailException {
+    void findAll() throws IOException, InterruptedException, FilmFailReleaseDate, UserCreateFailLogin, FilmWithEmptyName, CreateUserWithEmptyName, UserCreateFailEmail, FilmFailDurationNegative, UserCreateFailBirthday, UserAlreadyExist, FilmEmptyName, UserUpdateUnknown, InvalidEmailException, ValidationException {
         userController.deleteAll();
         User userGetAll = testUser();
         userGetAll.setId(998);
@@ -44,7 +44,7 @@ class UserControllerTest {
     @Test
     void update() throws FilmFailReleaseDate, UserCreateFailLogin, FilmWithEmptyName, CreateUserWithEmptyName,
             UserCreateFailEmail, FilmFailDurationNegative, UserCreateFailBirthday, UserAlreadyExist, FilmEmptyName,
-            UserUpdateUnknown, InvalidEmailException, FilmUpdateUnknown {
+            UserUpdateUnknown, InvalidEmailException, FilmUpdateUnknown, ValidationException {
 
         userController.deleteAll();
         User userCreate = testUser();

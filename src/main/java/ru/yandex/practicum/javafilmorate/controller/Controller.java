@@ -36,7 +36,7 @@ public abstract class Controller<E> {
     public E create(@RequestBody E obj) throws UserUpdateUnknown, UserCreateFailLogin,
             CreateUserWithEmptyName, UserCreateFailEmail, UserCreateFailBirthday,
             UserAlreadyExist, InvalidEmailException, FilmFailReleaseDate, FilmWithEmptyName,
-            FilmFailDurationNegative, FilmEmptyName {
+            FilmFailDurationNegative, FilmEmptyName, ValidationException {
 
         boolean isCreateUser = false;
         boolean isCreateFilm = false;
