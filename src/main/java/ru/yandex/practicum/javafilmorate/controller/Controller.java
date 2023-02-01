@@ -31,6 +31,37 @@ public abstract class Controller<E> {
     }
 
 
+    Integer id = -1;
+    @PostMapping
+    public E create(@RequestBody E obj) throws UserUpdateUnknown, UserCreateFailLogin,
+            CreateUserWithEmptyName, UserCreateFailEmail, UserCreateFailBirthday,
+            UserAlreadyExist, InvalidEmailException, FilmFailReleaseDate, FilmWithEmptyName,
+            FilmFailDurationNegative, FilmEmptyName {
+
+        boolean isCreateUser = false;
+        boolean isCreateFilm = false;
+
+
+        if (obj instanceof User) {
+            UserExceptionCreate userExceptionCreate = new UserExceptionCreate();
+            isCreateUser = userExceptionCreate.create((HashMap<Integer, User>) objs, (User) obj);
+            id = ((User) obj).getId();
+        } else if (obj instanceof Film) {
+            FilmExceptionCreate filmExceptionCreate = new FilmExceptionCreate();
+            isCreateFilm = filmExceptionCreate.create((HashMap<Integer, Film>) objs, (Film) obj);
+            id = ((Film) obj).getId();
+        }
+
+        if (id == -1) id = Uid.getUid();
+
+
+        if (isCreateUser || isCreateFilm)
+            objs.put(id, obj);
+
+        return obj;
+    }
+
+
     @PutMapping
     public ResponseEntity update(@RequestBody E obj) throws UserUpdateUnknown, FilmFailReleaseDate,
             FilmWithEmptyName, FilmFailDurationNegative, FilmEmptyName, FilmUpdateUnknown {
@@ -62,35 +93,7 @@ public abstract class Controller<E> {
         return ResponseEntity.ok(obj);
     }
 
-    Integer id = -1;
-    @PostMapping
-    public E create(@RequestBody E obj) throws UserUpdateUnknown, UserCreateFailLogin,
-            CreateUserWithEmptyName, UserCreateFailEmail, UserCreateFailBirthday,
-            UserAlreadyExist, InvalidEmailException, FilmFailReleaseDate, FilmWithEmptyName,
-            FilmFailDurationNegative, FilmEmptyName {
 
-        boolean isCreateUser = false;
-        boolean isCreateFilm = false;
-
-
-        if (obj instanceof User) {
-            UserExceptionCreate userExceptionCreate = new UserExceptionCreate();
-            isCreateUser = userExceptionCreate.create((HashMap<Integer, User>) objs, (User) obj);
-            id = ((User) obj).getId();
-        } else if (obj instanceof Film) {
-            FilmExceptionCreate filmExceptionCreate = new FilmExceptionCreate();
-            isCreateFilm = filmExceptionCreate.create((HashMap<Integer, Film>) objs, (Film) obj);
-            id = ((Film) obj).getId();
-        }
-
-        if (id == -1) id = Uid.getUid();
-
-
-        if (isCreateUser || isCreateFilm)
-            objs.put(id, obj);
-
-        return obj;
-    }
 
 
     public List<E> findAll() {
