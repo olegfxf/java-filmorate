@@ -14,10 +14,10 @@ public class DefaultAdvice {
             ValidationException.class,
             UserAlreadyExist.class,
             InvalidEmailException.class,
-            UserCreateFailEmail.class,
+
             CreateUserWithEmptyName.class,
-            UserCreateFailBirthday.class,
-            UserCreateFailLogin.class,
+
+
 
             FilmEmptyName.class,
             FilmFailDurationNegative.class,

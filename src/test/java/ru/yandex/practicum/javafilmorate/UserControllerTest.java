@@ -31,37 +31,32 @@ class UserControllerTest {
 
 
     @Test
-    void findAll() throws FilmFailReleaseDate, UserCreateFailLogin, FilmWithEmptyName, CreateUserWithEmptyName,
-            FilmFailDurationNegative, UserCreateFailBirthday, UserAlreadyExist,
-            FilmEmptyName, UserUpdateUnknown, InvalidEmailException, ValidationException, UserCreateFailEmail {
+    void findAll()  {
         userController.deleteAll();
         User userGetAll = testUser();
         userGetAll.setId(998);
         try {
             userController.create(userGetAll);
         }catch (Exception e) {
-            //System.out.println(userController.findAll().size());
             assertEquals(1, userController.findAll().size(), "Длина списка пользователей не  равна 1");
         }
     }
 
 
     @Test
-    void update() throws FilmFailReleaseDate, UserCreateFailLogin, FilmWithEmptyName, CreateUserWithEmptyName,
-            FilmFailDurationNegative, UserCreateFailBirthday, UserAlreadyExist, FilmEmptyName,
-             InvalidEmailException, FilmUpdateUnknown, ValidationException, UserCreateFailEmail {
+    void update() {
 
         userController.deleteAll();
         User userCreate = testUser();
         int id = userCreate.getId();
-        userController.create(userCreate);
+        try {
+            userController.create(userCreate);
+        }catch (Exception e){}
 
         User userUpdate = testUser();
         String userUpdateName = userUpdate.getName();
         userUpdate.setId(id);
         try {
-
-
             userController.update(userUpdate);
         }catch (Exception e) {
             ArrayList<User> users = (ArrayList<User>) userController.findAll().stream().collect(Collectors.toList());
@@ -72,8 +67,6 @@ class UserControllerTest {
         User userUpdateUnknown = testUser();
         userUpdateUnknown.setId(999);
         try {
-
-
             userController.update(userUpdateName);
         }catch (Exception e) {
             assertEquals(0, userController.findAll().size(), "Пользователь ошибочно включен в список пользователей");

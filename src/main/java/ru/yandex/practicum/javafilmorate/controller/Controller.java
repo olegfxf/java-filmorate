@@ -61,7 +61,7 @@ public abstract class Controller<E> {
 
 
     @PutMapping
-    public ResponseEntity update(@RequestBody E obj) throws UserUpdateUnknown, ValidationException {
+    public ResponseEntity update(@RequestBody E obj) throws ValidationException {
         boolean isUpdateUser = false;
         boolean isUpdateFilm = false;
 
