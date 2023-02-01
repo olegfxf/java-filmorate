@@ -1,16 +1,16 @@
 package ru.yandex.practicum.javafilmorate.controller;
 
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 import ru.yandex.practicum.javafilmorate.exception.ValidationException;
 import ru.yandex.practicum.javafilmorate.model.Film;
+import ru.yandex.practicum.javafilmorate.model.User;
 
 import javax.validation.Valid;
 //import javax.validation.ValidationException;
 import java.time.LocalDate;
+import java.util.HashMap;
 
 @RequestMapping("/films")
 @RestController
@@ -22,6 +22,13 @@ public class FilmController extends Controller<Film>{
         validationCreate(film);
         log.info("Creating film {}", film);
         return super.create(film);
+    }
+
+    @PutMapping
+    public ResponseEntity update(@Valid @RequestBody final Film film) throws ValidationException {
+        validationUpdate(film);
+        log.info("Update user {}", film);
+        return super.update(film);
     }
 
 // TODO методы контроллера
@@ -42,9 +49,34 @@ public class FilmController extends Controller<Film>{
 
         if (film.getDuration() < 0)
             throw new ru.yandex.practicum.javafilmorate.exception.ValidationException("Отрицательная продолжительность фильма");
-
-
     }
+
+
+    void validationUpdate(Film film) throws ValidationException {
+        HashMap<Integer, Film> films = super.getObjs();
+
+        if (film.getDescription().length() > 200)
+            throw new  ValidationException("Описание фильиа содержит больше 200 символов");
+
+        if (film.getName().isBlank())
+            throw new  ValidationException("Введите наименование фильма");
+
+        if (film.getReleaseDate().isBefore(LocalDate.of(1895, 12, 28)))
+            throw new  ValidationException("Неправильная дата релиза");
+
+        if (film.getDuration() < 0)
+            throw new  ValidationException("Отрицательная продолжительность фильма");
+
+
+        for (Integer idFilm : films.keySet()) {
+            if (idFilm.equals(film.getId())) {
+                return;
+            }
+        }
+    }
+
+
+
 
     // TODO валидация
 }
