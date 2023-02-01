@@ -12,7 +12,7 @@ public class DefaultAdvice {
 
     @ExceptionHandler({
             ValidationException.class,
-            UserAlreadyExist.class,
+ //           UserAlreadyExist1.class,
  //           InvalidEmailException1.class,
 
             CreateUserWithEmptyName.class,

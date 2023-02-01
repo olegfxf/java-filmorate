@@ -10,7 +10,7 @@ import java.util.HashSet;
 
 @Slf4j
 public class UserExceptionCreate {
-    public boolean create(HashMap<Integer, User> users, User user) throws UserAlreadyExist,
+    public boolean create(HashMap<Integer, User> users, User user) throws
             ValidationException {
 
         if (user.getName() == null) {
@@ -26,7 +26,7 @@ public class UserExceptionCreate {
         if (users.size() != 0) {
             for (Integer idUser : users.keySet()) {
                 if (idUser.equals(user.getId())) {
-                    throw new UserAlreadyExist("Пользователь " + user.getBirthday()
+                    throw new ValidationException("Пользователь " + user.getBirthday()
                             + " уже существует");
                 }
             }
