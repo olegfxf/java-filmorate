@@ -34,7 +34,7 @@ public abstract class Controller<E> {
     Integer id = -1;
     @PostMapping
     public E create(@RequestBody E obj) throws
-            UserAlreadyExist, InvalidEmailException, ValidationException {
+            UserAlreadyExist, ValidationException {
 
         boolean isCreateUser = false;
         boolean isCreateFilm = false;
