@@ -10,8 +10,8 @@ import java.util.HashSet;
 
 @Slf4j
 public class UserExceptionCreate {
-    public boolean create(HashMap<Integer, User> users, User user) throws InvalidEmailException, UserCreateFailLogin,
-            UserCreateFailBirthday, CreateUserWithEmptyName, UserCreateFailEmail, UserAlreadyExist, ValidationException {
+    public boolean create(HashMap<Integer, User> users, User user) throws InvalidEmailException, UserAlreadyExist,
+            ValidationException {
 
         if (user.getName() == null) {
             String userName = user.getLogin();
