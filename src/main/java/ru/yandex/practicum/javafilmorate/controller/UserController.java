@@ -35,6 +35,7 @@ public class UserController extends Controller<User> {
         HashMap<Integer, User> users = super.getObjs();
 
         if (user.getName() == null) {
+            deleteAll();
             String userName = user.getLogin();
             user.setId(1);
             user.setName(userName);
