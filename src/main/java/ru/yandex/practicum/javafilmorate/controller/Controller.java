@@ -31,18 +31,10 @@ public abstract class Controller<E> {
         return new ResponseEntity<>(objs.values().stream().collect(Collectors.toList()), HttpStatus.OK);
     }
 
-
     Integer id = -1;
 
     @PostMapping
     public E create(@RequestBody E obj) throws ValidationException {
-
-
-
-//        if (obj instanceof User) {
-//            id = ((User) obj).getId();
-//        } else if (obj instanceof Film)
-//            id = ((Film) obj).getId();
 
         id = (obj instanceof User)?((User) obj).getId():((Film) obj).getId();
 

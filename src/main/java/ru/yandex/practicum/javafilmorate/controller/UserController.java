@@ -32,14 +32,11 @@ public class UserController extends Controller<User> {
 // TODO методы контроллера
 
     void validationCreate(User user) throws ValidationException {
-//        if(user.getName() == null || user.getName().isEmpty()){
-//            throw new ValidationException("User name invalid");
-//        }
-//
         HashMap<Integer, User> users = super.getObjs();
 
         if (user.getName() == null) {
             String userName = user.getLogin();
+            user.setId(1);
             user.setName(userName);
             log.info("Новое имя пользователя стало: " + userName);
         }
@@ -70,6 +67,7 @@ public class UserController extends Controller<User> {
 
         log.info("Пользователь с именем " + user.getName() + " успешно добавлен");
     }
+
 
     void validationUpdate(User user) throws ValidationException {
         HashMap<Integer, User> users = super.getObjs();

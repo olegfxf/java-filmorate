@@ -5,10 +5,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ru.yandex.practicum.javafilmorate.exception.ValidationException;
 import ru.yandex.practicum.javafilmorate.model.Film;
-import ru.yandex.practicum.javafilmorate.model.User;
 
 import javax.validation.Valid;
-//import javax.validation.ValidationException;
 import java.time.LocalDate;
 import java.util.HashMap;
 

@@ -10,21 +10,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 @Slf4j
 public class DefaultAdvice {
 
-    @ExceptionHandler({
-            ValidationException.class,
- //           UserAlreadyExist1.class,
- //           InvalidEmailException1.class,
-
-            //CreateUserWithEmptyName.class,
-
-
-
-            //FilmEmptyName.class,
-            //FilmFailDurationNegative.class,
-            //FilmFailReleaseDate.class,
-            //FilmWithEmptyName1.class,
-            //FilmUpdateUnknown.class
-    })
+    @ExceptionHandler({ ValidationException.class })
     public ResponseEntity<Response> handleException(Exception e) {
         log.error(e.getMessage(), e);
         Response response = new Response(e.getMessage());

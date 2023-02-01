@@ -1,16 +1,10 @@
 package ru.yandex.practicum.javafilmorate;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import org.junit.jupiter.api.Test;
 import ru.yandex.practicum.javafilmorate.controller.Controller;
 import ru.yandex.practicum.javafilmorate.controller.UserController;
-import ru.yandex.practicum.javafilmorate.custom.LocalDateAdapter;
 import ru.yandex.practicum.javafilmorate.model.User;
-import ru.yandex.practicum.javafilmorate.util.Client;
 
-
-import java.net.URI;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.stream.Collectors;
@@ -18,15 +12,15 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static ru.yandex.practicum.javafilmorate.model.User.testUser;
 
 class UserControllerTest {
-    URI uri = URI.create("http://localhost:8080/users");
-    Client client = new Client();
+//    URI uri = URI.create("http://localhost:8080/users");
+//    Client client = new Client();
     Controller userController = new UserController();
 
 
-    Gson gson = new GsonBuilder()
-            .setPrettyPrinting()
-            .registerTypeAdapter(LocalDate.class, new LocalDateAdapter())
-            .create();
+//    Gson gson = new GsonBuilder()
+//            .setPrettyPrinting()
+//            .registerTypeAdapter(LocalDate.class, new LocalDateAdapter())
+//            .create();
 
 
     @Test
@@ -70,12 +64,11 @@ class UserControllerTest {
         }catch (Exception e) {
             assertEquals(0, userController.findAll().size(), "Пользователь ошибочно включен в список пользователей");
         }
-
-
     }
 
     @Test
     void create() {
+
         userController.deleteAll();
         User userCreate = testUser();
         try {
@@ -83,7 +76,6 @@ class UserControllerTest {
         } catch (Exception e) {
             assertEquals(1, userController.findAll().size(), "Пользователь не создался");
         }
-
 
         User userFallLogin = testUser();
         userFallLogin.setLogin("dolore ullamco");
@@ -93,7 +85,6 @@ class UserControllerTest {
             assertEquals(1, userController.findAll().size(), "Пост ошибочно загрузился"
                     + " с неверным логином");
         }
-
 
         userController.deleteAll();
         User userFallEmail = testUser();
