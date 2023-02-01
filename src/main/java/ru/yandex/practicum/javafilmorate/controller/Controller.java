@@ -33,10 +33,8 @@ public abstract class Controller<E> {
 
     Integer id = -1;
     @PostMapping
-    public E create(@RequestBody E obj) throws UserUpdateUnknown, UserCreateFailLogin,
-            CreateUserWithEmptyName, UserCreateFailEmail, UserCreateFailBirthday,
-            UserAlreadyExist, InvalidEmailException, FilmFailReleaseDate, FilmWithEmptyName,
-            FilmFailDurationNegative, FilmEmptyName, ValidationException {
+    public E create(@RequestBody E obj) throws
+            UserAlreadyExist, InvalidEmailException, ValidationException {
 
         boolean isCreateUser = false;
         boolean isCreateFilm = false;
@@ -63,8 +61,7 @@ public abstract class Controller<E> {
 
 
     @PutMapping
-    public ResponseEntity update(@RequestBody E obj) throws UserUpdateUnknown, FilmFailReleaseDate,
-            FilmWithEmptyName, FilmFailDurationNegative, FilmEmptyName, FilmUpdateUnknown, ValidationException {
+    public ResponseEntity update(@RequestBody E obj) throws UserUpdateUnknown, ValidationException {
         boolean isUpdateUser = false;
         boolean isUpdateFilm = false;
 

@@ -9,8 +9,7 @@ import java.util.HashMap;
 
 @Slf4j
 public class FilmExceptionUpdate {
-    public boolean update(HashMap<Integer, Film> films, Film film) throws FilmEmptyName, FilmWithEmptyName,
-            FilmFailReleaseDate, FilmFailDurationNegative, FilmUpdateUnknown, ValidationException {
+    public boolean update(HashMap<Integer, Film> films, Film film) throws ValidationException {
 
 
         if (film.getDescription().length() > 200)
