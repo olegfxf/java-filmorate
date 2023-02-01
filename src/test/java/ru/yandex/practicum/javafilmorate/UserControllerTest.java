@@ -6,7 +6,6 @@ import org.junit.jupiter.api.Test;
 import ru.yandex.practicum.javafilmorate.controller.Controller;
 import ru.yandex.practicum.javafilmorate.controller.UserController;
 import ru.yandex.practicum.javafilmorate.custom.LocalDateAdapter;
-import ru.yandex.practicum.javafilmorate.exception.*;
 import ru.yandex.practicum.javafilmorate.model.User;
 import ru.yandex.practicum.javafilmorate.util.Client;
 

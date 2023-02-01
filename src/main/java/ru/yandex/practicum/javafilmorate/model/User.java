@@ -8,6 +8,7 @@ import ru.yandex.practicum.javafilmorate.custom.JsonDateDeserializer;
 import ru.yandex.practicum.javafilmorate.custom.JsonDateSerializer;
 import ru.yandex.practicum.javafilmorate.util.Random;
 
+import javax.validation.constraints.*;
 import java.time.LocalDate;
 
 
@@ -20,6 +21,9 @@ public class User {
     private int id = Uid.getUid();
     private String login;
     private String name;
+    @NotBlank
+    @NotNull
+    @Email
     private String email;
     @JsonFormat(pattern = "yyyy-MM-dd")
     @JsonSerialize(using = JsonDateSerializer.class)
