@@ -14,9 +14,8 @@ import java.util.HashMap;
 @RestController
 @Slf4j
 public class FilmController extends Controller<Film>{
-
     @PostMapping
-    public Film create(@Valid @RequestBody final Film film) throws ru.yandex.practicum.javafilmorate.exception.ValidationException {
+    public Film create(@Valid @RequestBody final Film film) throws ValidationException {
         validationCreate(film);
         log.info("Creating film {}", film);
         return super.create(film);
@@ -29,11 +28,12 @@ public class FilmController extends Controller<Film>{
         return super.update(film);
     }
 
-// TODO методы контроллера
+
 
     void validationCreate(Film film) throws ValidationException {
         if (film.getDescription().length() > 200)
-            throw new ru.yandex.practicum.javafilmorate.exception.ValidationException("Описание фильма содержит больше 200 символов");
+            throw new ru.yandex.practicum.javafilmorate.exception.ValidationException("Описание фильма содержит больше"
+                    + " 200 символов");
 
         if (film.getName().isBlank())
             throw new ru.yandex.practicum.javafilmorate.exception.ValidationException("Введите наименование фильма");
@@ -42,7 +42,8 @@ public class FilmController extends Controller<Film>{
             throw new ru.yandex.practicum.javafilmorate.exception.ValidationException("Неправильная дата релиза");
 
         if (film.getDuration() < 0)
-            throw new ru.yandex.practicum.javafilmorate.exception.ValidationException("Отрицательная продолжительность фильма");
+            throw new ru.yandex.practicum.javafilmorate.exception.ValidationException("Отрицательная продолжительность"
+                    + " фильма");
     }
 
 
@@ -50,7 +51,7 @@ public class FilmController extends Controller<Film>{
         HashMap<Integer, Film> films = super.getObjs();
 
         if (film.getDescription().length() > 200)
-            throw new  ValidationException("Описание фильиа содержит больше 200 символов");
+            throw new  ValidationException("Описание фильма содержит больше 200 символов");
 
         if (film.getName().isBlank())
             throw new  ValidationException("Введите наименование фильма");
@@ -70,6 +71,5 @@ public class FilmController extends Controller<Film>{
         throw new ValidationException(" Фильм с наименованием " + film.getName() + " неизвестен");
     }
 
-    // TODO валидация
 }
 

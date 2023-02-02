@@ -35,9 +35,8 @@ public class UserController extends Controller<User> {
         HashMap<Integer, User> users = super.getObjs();
 
         if (user.getName() == null) {
-            //deleteAll();
             String userName = user.getLogin();
-            //user.setId(1);
+            user.setId(2);
             user.setName(userName);
             log.info("Новое имя пользователя стало: " + userName);
         }
