@@ -20,6 +20,9 @@ import java.time.LocalDate;
 public class User {
     private static Uid uid = new Uid();
     private Long id = uid.getUid();
+    @NotBlank
+    @NotNull
+    @Pattern(regexp = "\\S+")
     private String login;
     private String name;
     @NotBlank
