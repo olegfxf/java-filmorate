@@ -111,6 +111,21 @@ class FilmControllerTest {
             assertEquals(0, manager.findAll().size(), "Не получилось обновить  фили с дефлектором");
         }
 
-
     }
+
+    @Test
+    void getAllFilm() {
+        manager.deleteAll();
+        Film film = new Film().testFilm();
+        try {
+            filmController.create(film);
+        } catch (Exception e) { }
+        int size = 0;
+        try {
+            size = filmController.getAllFilms().getBody().size();
+        } catch (Exception e) {
+            assertEquals(1, size, "Некорректная длина списка фильмов");
+        }
+    }
+
 }
