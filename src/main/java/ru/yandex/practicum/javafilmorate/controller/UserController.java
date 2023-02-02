@@ -32,11 +32,11 @@ public class UserController extends Controller<User> {
 // TODO методы контроллера
 
     void validationCreate(User user) throws ValidationException {
-        HashMap<Integer, User> users = super.getObjs();
+        HashMap<Long, User> users = super.getObjs();
 
         if (user.getName() == null) {
             String userName = user.getLogin();
-            user.setId(2);
+            user.setId(2L);
             user.setName(userName);
             log.info("Новое имя пользователя стало: " + userName);
         }
@@ -45,7 +45,7 @@ public class UserController extends Controller<User> {
             throw new ValidationException("Вы не ввели email");
 
         if (users.size() != 0) {
-            for (Integer idUser : users.keySet()) {
+            for (Long idUser : users.keySet()) {
                 if (idUser.equals(user.getId())) {
                     throw new ValidationException("Пользователь " + user.getBirthday()
                             + " уже существует");
@@ -70,7 +70,7 @@ public class UserController extends Controller<User> {
 
 
     void validationUpdate(User user) throws ValidationException {
-        HashMap<Integer, User> users = super.getObjs();
+        HashMap<Long, User> users = super.getObjs();
         try {
             if (user.getEmail().isEmpty()) {
                 throw new InvalidEmail("Вы не ввели email");
@@ -79,7 +79,7 @@ public class UserController extends Controller<User> {
             System.out.println(exception.getMessage());
         }
 
-        for (Integer idUser : users.keySet()) {
+        for (Long idUser : users.keySet()) {
             if (idUser.equals(user.getId())) {
                 log.info("Пользователь " + user.getName() + " обновлен");
                 return;

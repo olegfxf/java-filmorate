@@ -13,7 +13,7 @@ import java.time.LocalDate;
 @ToString
 public class Film {
     private static Uid uid = new Uid();
-    private int id = uid.getUid();
+    private Long id = uid.getUid();
     private String name;
     private String description;
     private LocalDate releaseDate;

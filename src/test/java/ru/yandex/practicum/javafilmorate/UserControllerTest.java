@@ -12,22 +12,13 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static ru.yandex.practicum.javafilmorate.model.User.testUser;
 
 class UserControllerTest {
-//    URI uri = URI.create("http://localhost:8080/users");
-//    Client client = new Client();
     Controller userController = new UserController();
-
-
-//    Gson gson = new GsonBuilder()
-//            .setPrettyPrinting()
-//            .registerTypeAdapter(LocalDate.class, new LocalDateAdapter())
-//            .create();
-
 
     @Test
     void findAll()  {
         userController.deleteAll();
         User userGetAll = testUser();
-        userGetAll.setId(998);
+        userGetAll.setId(998L);
         try {
             userController.create(userGetAll);
         }catch (Exception e) {
@@ -41,7 +32,7 @@ class UserControllerTest {
 
         userController.deleteAll();
         User userCreate = testUser();
-        int id = userCreate.getId();
+        Long id = userCreate.getId();
         try {
             userController.create(userCreate);
         }catch (Exception e){}
@@ -58,7 +49,7 @@ class UserControllerTest {
 
         userController.deleteAll();
         User userUpdateUnknown = testUser();
-        userUpdateUnknown.setId(999);
+        userUpdateUnknown.setId(999L);
         try {
             userController.update(userUpdateName);
         }catch (Exception e) {

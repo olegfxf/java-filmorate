@@ -19,7 +19,7 @@ import java.time.LocalDate;
 @AllArgsConstructor
 public class User {
     private static Uid uid = new Uid();
-    private int id = uid.getUid();
+    private Long id = uid.getUid();
     private String login;
     private String name;
     @NotBlank

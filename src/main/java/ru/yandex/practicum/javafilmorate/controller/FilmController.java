@@ -48,7 +48,7 @@ public class FilmController extends Controller<Film>{
 
 
     void validationUpdate(Film film) throws ValidationException {
-        HashMap<Integer, Film> films = super.getObjs();
+        HashMap<Long, Film> films = super.getObjs();
 
         if (film.getDescription().length() > 200)
             throw new  ValidationException("Описание фильма содержит больше 200 символов");
@@ -62,7 +62,7 @@ public class FilmController extends Controller<Film>{
         if (film.getDuration() < 0)
             throw new  ValidationException("Отрицательная продолжительность фильма");
 
-        for (Integer idFilm : films.keySet()) {
+        for (Long idFilm : films.keySet()) {
             if (idFilm.equals(film.getId())) {
                 return;
             }

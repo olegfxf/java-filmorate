@@ -19,9 +19,9 @@ import static org.springframework.http.ResponseEntity.ok;
 @RestController
 @Slf4j
 public abstract class Controller<E> {
-    private final HashMap<Integer, E> objs = new HashMap<>();
+    private final HashMap<Long, E> objs = new HashMap<>();
 
-    protected HashMap<Integer, E> getObjs() {
+    protected HashMap<Long, E> getObjs() {
         return objs;
     }
 
@@ -31,7 +31,7 @@ public abstract class Controller<E> {
         return new ResponseEntity<>(objs.values().stream().collect(Collectors.toList()), HttpStatus.OK);
     }
 
-    Integer id = -1;
+    Long id = -1L;
 
     @PostMapping
     public E create(@RequestBody E obj) throws ValidationException {

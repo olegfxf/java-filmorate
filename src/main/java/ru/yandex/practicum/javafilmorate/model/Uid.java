@@ -1,7 +1,7 @@
 package ru.yandex.practicum.javafilmorate.model;
 
 public class Uid {
-    int uid = 1;
+    Long uid = 1L;
 
-    public Integer getUid() { return uid++; }
+    public Long getUid() { return uid++; }
 }
