@@ -12,7 +12,8 @@ import java.time.LocalDate;
 @Setter
 @ToString
 public class Film {
-    private int id = Uid.getUid();
+    private static Uid uid = new Uid();
+    private int id = uid.getUid();
     private String name;
     private String description;
     private LocalDate releaseDate;
@@ -20,7 +21,7 @@ public class Film {
 
     public static Film testFilm() {
         Film film = new Film();
-        film.setId(Uid.getUid());
+        film.setId(uid.getUid());
         film.setName(Random.string(5));
         film.setDescription(Random.string(50));
         film.setReleaseDate(LocalDate.now());

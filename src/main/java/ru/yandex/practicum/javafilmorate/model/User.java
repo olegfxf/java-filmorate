@@ -18,7 +18,8 @@ import java.time.LocalDate;
 @NoArgsConstructor
 @AllArgsConstructor
 public class User {
-    private int id = Uid.getUid();
+    private static Uid uid = new Uid();
+    private int id = uid.getUid();
     private String login;
     private String name;
     @NotBlank
@@ -32,7 +33,7 @@ public class User {
 
     public static User testUser() {
         User user = new User();
-        user.setId(Uid.getUid());
+        user.setId(uid.getUid());
         user.setLogin(Random.string(5));
         user.setName(Random.string(5));
         user.setEmail(Random.string(5) + "@" + Random.string(10));
