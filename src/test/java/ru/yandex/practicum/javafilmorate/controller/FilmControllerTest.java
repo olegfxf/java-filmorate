@@ -3,7 +3,6 @@ package ru.yandex.practicum.javafilmorate.controller;
 import org.junit.jupiter.api.Test;
 import ru.yandex.practicum.javafilmorate.exception.ValidationException;
 import ru.yandex.practicum.javafilmorate.model.Film;
-import ru.yandex.practicum.javafilmorate.model.User;
 import ru.yandex.practicum.javafilmorate.service.Manager;
 
 import java.time.LocalDate;
@@ -16,16 +15,16 @@ class FilmControllerTest {
     Manager<Film> manager = new Manager<>();
     FilmController filmController =new FilmController();
 
-@Test
-    void findAll()  {
+    @Test
+    void getAllFilm() throws ValidationException {
         manager.deleteAll();
-        Film filmGetAll = new Film().testFilm();
-        filmGetAll.setId(998L);
+        Film film = new Film().testFilm();
         try {
-            filmController.create(filmGetAll);
-        }catch (Exception e) {
-            assertEquals(1, manager.findAll().size(), "Длина списка пользователей не  равна 1");
-        }
+            filmController.create(film);
+        } catch (Exception e) { }
+        int size = filmController.getAllFilms().getBody().size();
+        if (size != 1)
+            throw new ValidationException("Некорректная длина списка фильмов");
     }
 
     @Test
@@ -112,18 +111,6 @@ class FilmControllerTest {
             assertEquals(0, manager.findAll().size(), "Не получилось обновить  фили с дефлектором");
         }
 
-    }
-
-    @Test
-    void getAllFilm() throws ValidationException {
-        manager.deleteAll();
-        Film film = new Film().testFilm();
-        try {
-            filmController.create(film);
-        } catch (Exception e) { }
-        int size = filmController.getAllFilms().getBody().size();
-        if (size != 1)
-            throw new ValidationException("Некорректная длина списка фильмов");
     }
 
 }
