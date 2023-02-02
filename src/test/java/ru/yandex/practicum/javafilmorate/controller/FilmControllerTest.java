@@ -110,7 +110,6 @@ class FilmControllerTest {
         }catch (Exception e) {
             assertEquals(0, manager.findAll().size(), "Не получилось обновить  фили с дефлектором");
         }
-
     }
 
 }
