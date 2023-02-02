@@ -8,7 +8,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.stream.Collectors;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-//import static ru.yandex.practicum.javafilmorate.model.User.testUser;
+
 
 class UserControllerTest {
     Manager<User> manager = new Manager<>();
