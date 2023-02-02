@@ -13,7 +13,7 @@ import java.util.HashMap;
 @RequestMapping("/films")
 @RestController
 @Slf4j
-public class FilmController extends Controller<Film>{
+public class FilmController extends UserAndFilmController<Film> {
     @PostMapping
     public Film create(@Valid @RequestBody final Film film) throws ValidationException {
         validationCreate(film);
@@ -27,7 +27,6 @@ public class FilmController extends Controller<Film>{
         log.info("Update user {}", film);
         return super.update(film);
     }
-
 
 
     void validationCreate(Film film) throws ValidationException {
@@ -46,9 +45,8 @@ public class FilmController extends Controller<Film>{
                     + " фильма");
     }
 
-
     void validationUpdate(Film film) throws ValidationException {
-        HashMap<Long, Film> films = super.getObjs();
+        HashMap<Long, Film> films = super.getUsersAndFilms();
 
         if (film.getDescription().length() > 200)
             throw new  ValidationException("Описание фильма содержит больше 200 символов");

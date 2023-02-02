@@ -31,7 +31,7 @@ public class User {
     @JsonDeserialize(using = JsonDateDeserializer.class)
     private LocalDate birthday;
 
-    public static User testUser() {
+    public User testUser() {
         User user = new User();
         user.setId(uid.getUid());
         user.setLogin(Random.string(5));

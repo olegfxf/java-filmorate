@@ -14,7 +14,7 @@ import java.util.HashMap;
 @RequestMapping("/users")
 @RestController
 @Slf4j
-public class UserController extends Controller<User> {
+public class UserController extends UserAndFilmController<User> {
     @PostMapping
     public User create(@Valid @RequestBody final User user) throws ValidationException {
         validationCreate(user);
@@ -29,10 +29,9 @@ public class UserController extends Controller<User> {
         return super.update(user);
     }
 
-// TODO методы контроллера
 
     void validationCreate(User user) throws ValidationException {
-        HashMap<Long, User> users = super.getObjs();
+        HashMap<Long, User> users = super.getUsersAndFilms();
 
         if (user.getName() == null) {
             String userName = user.getLogin();
@@ -70,7 +69,7 @@ public class UserController extends Controller<User> {
 
 
     void validationUpdate(User user) throws ValidationException {
-        HashMap<Long, User> users = super.getObjs();
+        HashMap<Long, User> users = super.getUsersAndFilms();
         try {
             if (user.getEmail().isEmpty()) {
                 throw new InvalidEmail("Вы не ввели email");
@@ -89,5 +88,4 @@ public class UserController extends Controller<User> {
         throw new ValidationException("Пользователь " + user.getName() + " неизвестен");
     }
 
-    // TODO валидация
 }

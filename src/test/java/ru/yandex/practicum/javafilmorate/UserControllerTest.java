@@ -1,7 +1,7 @@
 package ru.yandex.practicum.javafilmorate;
 
 import org.junit.jupiter.api.Test;
-import ru.yandex.practicum.javafilmorate.controller.Controller;
+import ru.yandex.practicum.javafilmorate.controller.UserAndFilmController;
 import ru.yandex.practicum.javafilmorate.controller.UserController;
 import ru.yandex.practicum.javafilmorate.model.User;
 
@@ -9,20 +9,22 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.stream.Collectors;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static ru.yandex.practicum.javafilmorate.model.User.testUser;
+
 
 class UserControllerTest {
-    Controller userController = new UserController();
+    UserAndFilmController userAndFilmController = new UserController();
+
+
 
     @Test
     void findAll()  {
-        userController.deleteAll();
-        User userGetAll = testUser();
+        userAndFilmController.deleteAll();
+        User userGetAll = new User().testUser();
         userGetAll.setId(998L);
         try {
-            userController.create(userGetAll);
+            userAndFilmController.create(userGetAll);
         }catch (Exception e) {
-            assertEquals(1, userController.findAll().size(), "Длина списка пользователей не  равна 1");
+            assertEquals(1, userAndFilmController.findAll().size(), "Длина списка пользователей не  равна 1");
         }
     }
 
@@ -30,80 +32,80 @@ class UserControllerTest {
     @Test
     void update() {
 
-        userController.deleteAll();
-        User userCreate = testUser();
+        userAndFilmController.deleteAll();
+        User userCreate = new User().testUser();
         Long id = userCreate.getId();
         try {
-            userController.create(userCreate);
+            userAndFilmController.create(userCreate);
         }catch (Exception e){}
 
-        User userUpdate = testUser();
+        User userUpdate = new User().testUser();
         String userUpdateName = userUpdate.getName();
         userUpdate.setId(id);
         try {
-            userController.update(userUpdate);
+            userAndFilmController.update(userUpdate);
         }catch (Exception e) {
-            ArrayList<User> users = (ArrayList<User>) userController.findAll().stream().collect(Collectors.toList());
+            ArrayList<User> users = (ArrayList<User>) userAndFilmController.findAll().stream().collect(Collectors.toList());
             assertEquals(userUpdateName, users.get(0).getName(), "Обновление пользователя прошло неудачно");
         }
 
-        userController.deleteAll();
-        User userUpdateUnknown = testUser();
+        userAndFilmController.deleteAll();
+        User userUpdateUnknown = new User().testUser();
         userUpdateUnknown.setId(999L);
         try {
-            userController.update(userUpdateName);
+            userAndFilmController.update(userUpdateName);
         }catch (Exception e) {
-            assertEquals(0, userController.findAll().size(), "Пользователь ошибочно включен в список пользователей");
+            assertEquals(0, userAndFilmController.findAll().size(), "Пользователь ошибочно включен в список пользователей");
         }
     }
 
     @Test
     void create() {
 
-        userController.deleteAll();
-        User userCreate = testUser();
+        userAndFilmController.deleteAll();
+        User userCreate = new User().testUser();
         try {
-            userController.create(userCreate);
+            userAndFilmController.create(userCreate);
         } catch (Exception e) {
-            assertEquals(1, userController.findAll().size(), "Пользователь не создался");
+            assertEquals(1, userAndFilmController.findAll().size(), "Пользователь не создался");
         }
 
-        User userFallLogin = testUser();
+        User userFallLogin = new User().testUser();
         userFallLogin.setLogin("dolore ullamco");
         try {
-            userController.create(userFallLogin);
+            userAndFilmController.create(userFallLogin);
         } catch (Exception e) {
-            assertEquals(1, userController.findAll().size(), "Пост ошибочно загрузился"
+            assertEquals(1, userAndFilmController.findAll().size(), "Пост ошибочно загрузился"
                     + " с неверным логином");
         }
 
-        userController.deleteAll();
-        User userFallEmail = testUser();
+        userAndFilmController.deleteAll();
+        User userFallEmail = new User().testUser();
         userFallEmail.setEmail("mail.ru");
         try {
-            userController.create(userFallEmail);
+            userAndFilmController.create(userFallEmail);
         } catch (Exception e) {
-            assertEquals(0, userController.findAll().size(), "Пост ошибочно загрузился с "
+            assertEquals(0, userAndFilmController.findAll().size(), "Пост ошибочно загрузился с "
                     + " неверным email");
         }
 
-        userController.deleteAll();
-        User userFallBirthday = testUser();
+        userAndFilmController.deleteAll();
+        User userFallBirthday = new User().testUser();
         userFallBirthday.setBirthday(LocalDate.of(2446, 8, 20));
         try {
-            userController.create(userFallBirthday);
+            userAndFilmController.create(userFallBirthday);
         } catch (Exception e) {
-            assertEquals(0, userController.findAll().size(), "Пост ошибочно "
+            assertEquals(0, userAndFilmController.findAll().size(), "Пост ошибочно "
                     + "загрузился с неверной датой рождения");
         }
 
-        userController.deleteAll();
-        User userWithEmptyName = testUser();
+        userAndFilmController.deleteAll();
+        User userWithEmptyName = new User().testUser();
         userWithEmptyName.setName(null);
         try {
-            userController.create(userWithEmptyName);
+            userAndFilmController.create(userWithEmptyName);
         } catch (Exception e) {
-            assertEquals(0, userController.findAll().size(), "Пользователь c"
+            assertEquals(0, userAndFilmController.findAll().size(), "Пользователь c"
                     + " незаполненной графой 'имя пользователя'"
                     + " ошибочно включен в список пользователей");
         }
