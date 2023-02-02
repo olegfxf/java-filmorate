@@ -24,7 +24,7 @@ class FilmControllerTest {
         } catch (Exception e) { }
         int size = filmController.getAllFilms().getBody().size();
         if (size != 1)
-            throw new ValidationException("Некорректная длина списка фильмов");
+            throw new ValidationException("Длина списка фильмов не равна 1");
     }
 
     @Test
@@ -35,7 +35,7 @@ class FilmControllerTest {
         try {
             filmController.create(filmCreate);
         }catch (Exception e){
-            assertEquals(1, manager.findAll().size(), "Ошибка добавления фильма");
+            assertEquals(1, manager.findAll().size(), "Фильм не добавлен в список фильмов");
         }
 
 
@@ -58,7 +58,7 @@ class FilmControllerTest {
             filmController.create(filmFailDescription);
         }catch (Exception e){
             assertEquals(0, manager.findAll().size(),"В список фильмов ошибочно вставлен фильм"
-                    + " с описанием боле 200 символов");
+                    + " с описанием более 200 символов");
         }
 
         manager.deleteAll();
@@ -68,12 +68,12 @@ class FilmControllerTest {
             filmController.create(filmReleaseDate);
         }catch (Exception e){
             assertEquals(0,manager.findAll().size(), "В список фильмов ошибочно вставлен фильм"
-                    + " с датой выхода раньше 1890-03-25");
+                    + " с датой выхода 1890-03-25");
         }
 
         manager.deleteAll();
         Film filmDuration = new Film().testFilm();
-        filmDuration.setDuration(0);
+        filmDuration.setDuration(-100);
         try {
             filmController.create(filmDuration);
         }catch (Exception e){
@@ -108,7 +108,7 @@ class FilmControllerTest {
         try {
             filmController.create(filmUpdateUnknown);
         }catch (Exception e) {
-            assertEquals(0, manager.findAll().size(), "Не получилось обновить  фили с дефлектором");
+            assertEquals(0, manager.findAll().size(), "Обновился фильм с несуществующим идентификатором");
         }
     }
 
