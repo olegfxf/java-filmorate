@@ -1,6 +1,7 @@
 package ru.yandex.practicum.javafilmorate.controller;
 
 import org.junit.jupiter.api.Test;
+import ru.yandex.practicum.javafilmorate.exception.ValidationException;
 import ru.yandex.practicum.javafilmorate.model.Film;
 import ru.yandex.practicum.javafilmorate.model.User;
 import ru.yandex.practicum.javafilmorate.service.Manager;
@@ -114,18 +115,15 @@ class FilmControllerTest {
     }
 
     @Test
-    void getAllFilm() {
+    void getAllFilm() throws ValidationException {
         manager.deleteAll();
         Film film = new Film().testFilm();
         try {
             filmController.create(film);
         } catch (Exception e) { }
-        int size = 0;
-        try {
-            size = filmController.getAllFilms().getBody().size();
-        } catch (Exception e) {
-            assertEquals(1, size, "Некорректная длина списка фильмов");
-        }
+        int size = filmController.getAllFilms().getBody().size();
+        if (size != 1)
+            throw new ValidationException("Некорректная длина списка фильмов");
     }
 
 }
