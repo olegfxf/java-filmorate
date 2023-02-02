@@ -3,7 +3,6 @@ package ru.yandex.practicum.javafilmorate.model;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
-import javax.validation.constraints.Size;
 
 import ru.yandex.practicum.javafilmorate.util.Random;
 
@@ -16,7 +15,6 @@ public class Film {
     private static Uid uid = new Uid();
     private Long id = uid.getUid();
     private String name;
-    @Size(max = 200, message = "должно быть меньше 200")
     private String description;
     private LocalDate releaseDate;
     private Integer duration;

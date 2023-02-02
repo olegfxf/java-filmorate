@@ -15,7 +15,6 @@ class UserControllerTest {
     Manager<User> manager = new Manager<>();
     UserController userController = new UserController();
 
-
     @Test
     void getAllFilm() throws ValidationException {
         manager.deleteAll();
