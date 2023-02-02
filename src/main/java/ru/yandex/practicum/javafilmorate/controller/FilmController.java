@@ -67,7 +67,7 @@ public class FilmController extends Controller<Film>{
             }
         }
 
-        //throw new ValidationException(" Фильм с наименованием " + film.getName() + " неизвестен");
+        throw new ValidationException(" Фильм с наименованием " + film.getName() + " неизвестен");
     }
 
     // TODO валидация
