@@ -15,7 +15,7 @@ import java.util.stream.Collectors;
 @RestController
 @Slf4j
 public abstract class UserAndFilmController<E> {
-    private final HashMap<Long, E> usersAndFilms = new HashMap<>();
+    protected final HashMap<Long, E> usersAndFilms = new HashMap<>();
 
     protected HashMap<Long, E> getUsersAndFilms() {
         return usersAndFilms;
@@ -46,12 +46,4 @@ public abstract class UserAndFilmController<E> {
         return ResponseEntity.ok(userOrFilm);
     }
 
-
-    public List<E> findAll() {
-        return usersAndFilms.values().stream().collect(Collectors.toList());
-    }
-
-    public void deleteAll() {
-        usersAndFilms.clear();
-    }
 }

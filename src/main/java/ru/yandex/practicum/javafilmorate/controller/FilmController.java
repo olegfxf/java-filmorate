@@ -15,17 +15,17 @@ import java.util.HashMap;
 @Slf4j
 public class FilmController extends UserAndFilmController<Film> {
     @PostMapping
-    public Film create(@Valid @RequestBody final Film film) throws ValidationException {
-        validationCreate(film);
-        log.info("Creating film {}", film);
-        return super.create(film);
+    public Film create(@Valid @RequestBody final Film userOrFilm) throws ValidationException {
+        validationCreate(userOrFilm);
+        log.info("Creating film {}", userOrFilm);
+        return super.create(userOrFilm);
     }
 
     @PutMapping
-    public ResponseEntity update(@Valid @RequestBody final Film film) throws ValidationException {
-        validationUpdate(film);
-        log.info("Update user {}", film);
-        return super.update(film);
+    public ResponseEntity update(@Valid @RequestBody final Film userOrFilm) throws ValidationException {
+        validationUpdate(userOrFilm);
+        log.info("Update user {}", userOrFilm);
+        return super.update(userOrFilm);
     }
 
 

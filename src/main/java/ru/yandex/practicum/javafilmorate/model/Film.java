@@ -19,7 +19,7 @@ public class Film {
     private LocalDate releaseDate;
     private Integer duration;
 
-    public static Film testFilm() {
+    public  Film testFilm() {
         Film film = new Film();
         film.setId(uid.getUid());
         film.setName(Random.string(5));
