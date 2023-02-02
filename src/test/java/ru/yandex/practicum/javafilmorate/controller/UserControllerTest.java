@@ -12,6 +12,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class UserControllerTest {
     Manager<User> manager = new Manager<>();
+    UserController userController = new UserController();
 
 
 
@@ -21,7 +22,7 @@ class UserControllerTest {
         User userGetAll = new User().testUser();
         userGetAll.setId(998L);
         try {
-            manager.create(userGetAll);
+            userController.create(userGetAll);
         }catch (Exception e) {
             assertEquals(1, manager.findAll().size(), "Длина списка пользователей не  равна 1");
         }
@@ -35,7 +36,7 @@ class UserControllerTest {
         User userCreate = new User().testUser();
         Long id = userCreate.getId();
         try {
-            manager.create(userCreate);
+            userController.create(userCreate);
         }catch (Exception e){}
 
         User userUpdate = new User().testUser();
@@ -43,7 +44,7 @@ class UserControllerTest {
         userUpdate.setId(id);
         ArrayList<User> users = (ArrayList<User>) manager.findAll().stream().collect(Collectors.toList());
         try {
-            manager.update(userUpdate);
+            userController.update(userUpdate);
         }catch (Exception e) {
             assertEquals(userUpdateName, users.get(0).getName(), "Обновление пользователя прошло неудачно");
         }
@@ -52,7 +53,7 @@ class UserControllerTest {
         User userUpdateUnknown = new User().testUser();
         userUpdateUnknown.setId(999L);
         try {
-            manager.update(userUpdateName);
+            userController.update(userUpdateUnknown);
         }catch (Exception e) {
             assertEquals(0, manager.findAll().size(), "Пользователь ошибочно включен в список пользователей");
         }
@@ -64,17 +65,18 @@ class UserControllerTest {
         manager.deleteAll();
         User userCreate = new User().testUser();
         try {
-            manager.create(userCreate);
+            userController.create(userCreate);
         } catch (Exception e) {
             assertEquals(1, manager.findAll().size(), "Пользователь не создался");
         }
 
+        manager.deleteAll();
         User userFallLogin = new User().testUser();
         userFallLogin.setLogin("dolore ullamco");
         try {
-            manager.create(userFallLogin);
+            userController.create(userFallLogin);
         } catch (Exception e) {
-            assertEquals(1, manager.findAll().size(), "Пользователь ошибочно загрузился"
+            assertEquals(0, manager.findAll().size(), "Пользователь ошибочно загрузился"
                     + " с неверным логином");
         }
 
@@ -82,7 +84,7 @@ class UserControllerTest {
         User userFallEmail = new User().testUser();
         userFallEmail.setEmail("mail.ru");
         try {
-            manager.create(userFallEmail);
+            userController.create(userFallEmail);
         } catch (Exception e) {
             assertEquals(0, manager.findAll().size(), "Пользователь ошибочно загрузился с "
                     + " неверным email");
@@ -92,7 +94,7 @@ class UserControllerTest {
         User userFallBirthday = new User().testUser();
         userFallBirthday.setBirthday(LocalDate.of(2446, 8, 20));
         try {
-            manager.create(userFallBirthday);
+            userController.create(userFallBirthday);
         } catch (Exception e) {
             assertEquals(0, manager.findAll().size(), "Пользователь ошибочно "
                     + "загрузился с неверной датой рождения");
@@ -102,7 +104,7 @@ class UserControllerTest {
         User userWithEmptyName = new User().testUser();
         userWithEmptyName.setName(null);
         try {
-            manager.create(userWithEmptyName);
+            userController.create(userWithEmptyName);
         } catch (Exception e) {
             assertEquals(0, manager.findAll().size(), "Пользователь c"
                     + " незаполненной графой 'имя пользователя'"

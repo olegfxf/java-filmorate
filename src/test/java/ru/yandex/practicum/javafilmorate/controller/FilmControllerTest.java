@@ -8,6 +8,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class FilmControllerTest {
     Manager<Film> manager = new Manager<>();
+    FilmController filmController =new FilmController();
 
     @Test
     void create() {
@@ -15,7 +16,7 @@ class FilmControllerTest {
         manager.deleteAll();
         Film filmCreate = new Film().testFilm();
         try {
-            manager.create(filmCreate);
+            filmController.create(filmCreate);
         }catch (Exception e){
             assertEquals(1, manager.findAll().size(), "Ошибка добавления фильма");
         }
@@ -25,7 +26,7 @@ class FilmControllerTest {
         Film filmWithEmptyName = new Film().testFilm();
         filmWithEmptyName.setName(null);
         try {
-            manager.create(filmWithEmptyName);
+            filmController.create(filmWithEmptyName);
         }catch (Exception e){
             assertEquals(0, manager.findAll().size(),"Фильм без названия внесен в список фильмов");
         }
@@ -37,7 +38,7 @@ class FilmControllerTest {
              +   "Здесь они хотят разыскать господина Огюста Куглова, который задолжал им деньги, а именно 20 миллионов. "
              + "о Куглов, который за время «своего отсутствия», стал кандидатом Коломбани.");
         try {
-            manager.create(filmFailDescription);
+            filmController.create(filmFailDescription);
         }catch (Exception e){
             assertEquals(0, manager.findAll().size(),"В список фильмов ошибочно вставлен фильм"
                     + " с описанием боле 200 символов");
