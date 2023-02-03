@@ -14,34 +14,34 @@ import java.util.stream.Collectors;
 
 @RestController
 @Slf4j
-public abstract class UserAndFilmController<E> {
-    protected final HashMap<Long, E> usersAndFilms = new HashMap<>();
+public abstract class Controller<E> {
+    protected final HashMap<Long, E> storages = new HashMap<>();
 
-    protected HashMap<Long, E> getUsersAndFilms() {
-        return usersAndFilms;
+    protected HashMap<Long, E> getStorages() {
+        return storages;
     }
 
     @GetMapping
     public ResponseEntity<List<E>> getAllFilms() {
         log.info("Выполнен запрос на вывод всех пользователей");
-        return new ResponseEntity<>(usersAndFilms.values().stream().collect(Collectors.toList()), HttpStatus.OK);
+        return new ResponseEntity<>(storages.values().stream().collect(Collectors.toList()), HttpStatus.OK);
     }
 
-    Long id = -1L;
+    Long generateId = -1L;
 
     @PostMapping
-    public E create(@RequestBody E userOrFilm) throws ValidationException {
-        id = (userOrFilm instanceof User)?((User) userOrFilm).getId():((Film) userOrFilm).getId();
-        usersAndFilms.put(id, userOrFilm);
+    public E create(@RequestBody E data) throws ValidationException {
+        generateId = (data instanceof User) ? ((User) data).getId() : ((Film) data).getId();
+        storages.put(generateId, data);
 
-        return userOrFilm;
+        return data;
     }
 
     @PutMapping
     public ResponseEntity update(@RequestBody E userOrFilm) throws ValidationException {
-        id = (userOrFilm instanceof User)?((User)userOrFilm).getId():((Film)userOrFilm).getId();
-        usersAndFilms.remove(id);
-        usersAndFilms.put(id, userOrFilm);
+        generateId = (userOrFilm instanceof User) ? ((User) userOrFilm).getId() : ((Film) userOrFilm).getId();
+        if (storages.keySet().stream().filter(e -> e == generateId).findFirst().isPresent())
+            storages.put(generateId, userOrFilm);
 
         return ResponseEntity.ok(userOrFilm);
     }

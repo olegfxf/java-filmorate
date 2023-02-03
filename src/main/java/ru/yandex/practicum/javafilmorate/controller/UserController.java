@@ -7,23 +7,22 @@ import ru.yandex.practicum.javafilmorate.exception.InvalidEmail;
 import ru.yandex.practicum.javafilmorate.exception.ValidationException;
 import ru.yandex.practicum.javafilmorate.model.User;
 
-import javax.validation.Valid;
 import java.time.LocalDate;
 import java.util.HashMap;
 
 @RequestMapping("/users")
 @RestController
 @Slf4j
-public class UserController extends UserAndFilmController<User> {
+public class UserController extends Controller<User> {
     @PostMapping
-    public User create(@Valid @RequestBody final User user) throws ValidationException {
-        validationCreate(user);
-        log.info("Creating user {}", user);
-        return super.create(user);
+    public User create(@RequestBody final User data) throws ValidationException {
+        validationCreate(data);
+        log.info("Creating user {}", data);
+        return super.create(data);
     }
 
     @PutMapping
-    public ResponseEntity update(@Valid @RequestBody final User user) throws ValidationException {
+    public ResponseEntity update(@RequestBody final User user) throws ValidationException {
         validationUpdate(user);
         log.info("Update user {}", user);
         return super.update(user);
@@ -31,7 +30,7 @@ public class UserController extends UserAndFilmController<User> {
 
 
     void validationCreate(User user) throws ValidationException {
-        HashMap<Long, User> users = super.getUsersAndFilms();
+        HashMap<Long, User> users = super.getStorages();
 
         if (user.getName() == null) {
             String userName = user.getLogin();
@@ -69,7 +68,7 @@ public class UserController extends UserAndFilmController<User> {
 
 
     void validationUpdate(User user) throws ValidationException {
-        HashMap<Long, User> users = super.getUsersAndFilms();
+        HashMap<Long, User> users = super.getStorages();
         try {
             if (user.getEmail().isEmpty()) {
                 throw new InvalidEmail("Вы не ввели email");

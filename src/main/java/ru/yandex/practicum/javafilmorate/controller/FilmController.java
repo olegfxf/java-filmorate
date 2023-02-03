@@ -6,23 +6,22 @@ import org.springframework.web.bind.annotation.*;
 import ru.yandex.practicum.javafilmorate.exception.ValidationException;
 import ru.yandex.practicum.javafilmorate.model.Film;
 
-import javax.validation.Valid;
 import java.time.LocalDate;
 import java.util.HashMap;
 
 @RequestMapping("/films")
 @RestController
 @Slf4j
-public class FilmController extends UserAndFilmController<Film> {
+public class FilmController extends Controller<Film> {
     @PostMapping
-    public Film create(@Valid @RequestBody final Film film) throws ValidationException {
-        validationCreate(film);
-        log.info("Creating film {}", film);
-        return super.create(film);
+    public Film create(@RequestBody final Film data) throws ValidationException {
+        validationCreate(data);
+        log.info("Creating film {}", data);
+        return super.create(data);
     }
 
     @PutMapping
-    public ResponseEntity update(@Valid @RequestBody final Film film) throws ValidationException {
+    public ResponseEntity update(@RequestBody final Film film) throws ValidationException {
         validationUpdate(film);
         log.info("Update film {}", film);
         return super.update(film);
@@ -46,7 +45,7 @@ public class FilmController extends UserAndFilmController<Film> {
     }
 
     void validationUpdate(Film film) throws ValidationException {
-        HashMap<Long, Film> films = super.getUsersAndFilms();
+        HashMap<Long, Film> films = super.getStorages();
 
         if (film.getDescription().length() > 200)
             throw new  ValidationException("Описание фильма содержит больше 200 символов");
