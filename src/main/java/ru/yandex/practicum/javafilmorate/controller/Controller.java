@@ -24,21 +24,21 @@ public abstract class Controller<E> {
     @GetMapping
     public ResponseEntity<List<E>> getAllFilms() {
         log.info("Выполнен запрос на вывод всех пользователей");
-        return new ResponseEntity<>(storages.values().stream().collect(Collectors.toList()), HttpStatus.OK);
+        return new ResponseEntity(storages.values().stream().collect(Collectors.toList()), HttpStatus.OK);
     }
 
     Long generateId = -1L;
 
     @PostMapping
-    public E create(@RequestBody E data) throws ValidationException {
+    public ResponseEntity<?> create(E data) throws ValidationException {
         generateId = (data instanceof User) ? ((User) data).getId() : ((Film) data).getId();
         storages.put(generateId, data);
 
-        return data;
+        return ResponseEntity.ok(data);
     }
 
     @PutMapping
-    public ResponseEntity update(@RequestBody E userOrFilm) throws ValidationException {
+    public ResponseEntity<?> update(@RequestBody E userOrFilm) throws ValidationException {
         generateId = (userOrFilm instanceof User) ? ((User) userOrFilm).getId() : ((Film) userOrFilm).getId();
         if (storages.keySet().stream().filter(e -> e == generateId).findFirst().isPresent())
             storages.put(generateId, userOrFilm);
