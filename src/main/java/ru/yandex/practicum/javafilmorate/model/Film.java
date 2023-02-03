@@ -3,7 +3,6 @@ package ru.yandex.practicum.javafilmorate.model;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
-
 import ru.yandex.practicum.javafilmorate.util.Random;
 
 import java.time.LocalDate;
@@ -19,7 +18,7 @@ public class Film {
     private LocalDate releaseDate;
     private Integer duration;
 
-    public  Film testFilm() {
+    public Film testFilm() {
         Film film = new Film();
         film.setId(uid.getUid());
         film.setName(Random.string(5));

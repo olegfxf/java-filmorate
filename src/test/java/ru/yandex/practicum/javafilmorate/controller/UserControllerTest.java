@@ -8,6 +8,7 @@ import ru.yandex.practicum.javafilmorate.service.Manager;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.stream.Collectors;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 
@@ -21,7 +22,8 @@ class UserControllerTest {
         User user = new User().testUser();
         try {
             userController.create(user);
-        } catch (Exception e) { }
+        } catch (Exception e) {
+        }
         int size = userController.getAllFilms().getBody().size();
         if (size != 1)
             throw new ValidationException("Длина списка пользователей не  равна 1");
@@ -88,7 +90,8 @@ class UserControllerTest {
         Long id = userCreate.getId();
         try {
             userController.create(userCreate);
-        }catch (Exception e){}
+        } catch (Exception e) {
+        }
 
         User userUpdate = new User().testUser();
         String userUpdateName = userUpdate.getName();
@@ -96,7 +99,7 @@ class UserControllerTest {
         ArrayList<User> users = (ArrayList<User>) manager.findAll().stream().collect(Collectors.toList());
         try {
             userController.update(userUpdate);
-        }catch (Exception e) {
+        } catch (Exception e) {
             assertEquals(userUpdateName, users.get(0).getName(), "Обновление пользователя прошло неудачно");
         }
 
@@ -105,7 +108,7 @@ class UserControllerTest {
         userUpdateUnknown.setId(999L);
         try {
             userController.update(userUpdateUnknown);
-        }catch (Exception e) {
+        } catch (Exception e) {
             assertEquals(0, manager.findAll().size(), "Пользователь ошибочно включен в список пользователей");
         }
     }

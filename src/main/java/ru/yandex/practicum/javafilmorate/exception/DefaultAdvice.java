@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 @Slf4j
 public class DefaultAdvice {
 
-    @ExceptionHandler({ ValidationException.class })
+    @ExceptionHandler({ValidationException.class})
     public ResponseEntity<Response> handleException(Exception e) {
         log.error(e.getMessage(), e);
         Response response = new Response(e.getMessage());

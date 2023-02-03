@@ -8,7 +8,7 @@ import java.net.http.HttpResponse;
 
 public class Client {
     public HttpResponse<String> http(String method, URI uri,
-                                            String requestBody) throws IOException, InterruptedException {
+                                     String requestBody) throws IOException, InterruptedException {
         HttpRequest request = null;
         if (method.equals("GET"))
             request = HttpRequest.newBuilder()
