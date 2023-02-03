@@ -7,7 +7,6 @@ import ru.yandex.practicum.javafilmorate.exception.ValidationException;
 import ru.yandex.practicum.javafilmorate.model.Film;
 
 import java.time.LocalDate;
-import java.util.HashMap;
 
 @RequestMapping("/films")
 @RestController
@@ -23,8 +22,7 @@ public class FilmController extends Controller<Film> {
     @PutMapping
     public ResponseEntity<?> update(@RequestBody final Film film) throws ValidationException {
         validation(film);
-        HashMap<Long, Film> films = super.getStorages();
-        for (Long idFilm : films.keySet()) {
+        for (Long idFilm : storages.keySet()) {
             if (idFilm.equals(film.getId())) {
                 log.info("Update film {}", film);
                 return super.update(film);

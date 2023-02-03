@@ -16,9 +16,8 @@ public class UserController extends Controller<User> {
     @PostMapping
     public ResponseEntity<?> create(@RequestBody final User user) throws ValidationException {
         validation(user);
-        HashMap<Long, User> users = super.getStorages();
-        if (users.size() != 0) {
-            for (Long idUser : users.keySet()) {
+        if (storages.size() != 0) {
+            for (Long idUser : storages.keySet()) {
                 if (idUser.equals(user.getId())) {
                     throw new ValidationException("Пользователь " + user.getBirthday()
                             + " уже существует");
