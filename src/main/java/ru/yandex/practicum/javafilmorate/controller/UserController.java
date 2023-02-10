@@ -14,7 +14,7 @@ import java.util.HashMap;
 @Slf4j
 public class UserController extends Controller<User> {
     @PostMapping
-    public ResponseEntity<?> create(@RequestBody final User user) throws ValidationException {
+    public User create(@RequestBody final User user) throws ValidationException {
         validation(user);
         if (storages.size() != 0) {
             for (Long idUser : storages.keySet()) {
@@ -30,7 +30,7 @@ public class UserController extends Controller<User> {
     }
 
     @PutMapping
-    public ResponseEntity<?> update(@RequestBody final User user) throws ValidationException {
+    public User update(@RequestBody final User user) throws ValidationException {
         validation(user);
         HashMap<Long, User> users = super.getStorages();
         for (Long idUser : users.keySet()) {

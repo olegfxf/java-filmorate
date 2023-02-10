@@ -30,20 +30,20 @@ public abstract class Controller<E> {
     Long generateId = -1L;
 
     @PostMapping
-    public ResponseEntity<?> create(E data) throws ValidationException {
+    public E create(E data) throws ValidationException {
         generateId = (data instanceof User) ? ((User) data).getId() : ((Film) data).getId();
         storages.put(generateId, data);
 
-        return ResponseEntity.ok(data);
+        return data;
     }
 
     @PutMapping
-    public ResponseEntity<?> update(@RequestBody E userOrFilm) throws ValidationException {
+    public E update(@RequestBody E userOrFilm) throws ValidationException {
         generateId = (userOrFilm instanceof User) ? ((User) userOrFilm).getId() : ((Film) userOrFilm).getId();
         if (storages.keySet().stream().filter(e -> e == generateId).findFirst().isPresent())
             storages.put(generateId, userOrFilm);
 
-        return ResponseEntity.ok(userOrFilm);
+        return userOrFilm;
     }
 
 }

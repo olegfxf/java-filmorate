@@ -13,14 +13,15 @@ import java.time.LocalDate;
 @Slf4j
 public class FilmController extends Controller<Film> {
     @PostMapping
-    public ResponseEntity<?> create(@RequestBody final Film film) throws ValidationException {
+    @ResponseBody
+    public Film create(@RequestBody final Film film) throws ValidationException {
         validation(film);
         log.info("Creating film {}", film);
         return super.create(film);
     }
 
     @PutMapping
-    public ResponseEntity<?> update(@RequestBody final Film film) throws ValidationException {
+    public Film update(@RequestBody final Film film) throws ValidationException {
         validation(film);
         for (Long idFilm : storages.keySet()) {
             if (idFilm.equals(film.getId())) {
