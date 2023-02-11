@@ -1,20 +1,19 @@
 package ru.yandex.practicum.javafilmorate.exception;
 
-public class Response {
-    private String message;
+public class ErrorResponse {
+    private String error;
+    private String description;
 
-    public Response() {
+    public ErrorResponse(String error, String description) {
+        this.error = error;
+        this.description = description;
     }
 
-    public Response(String message) {
-        this.message = message;
+    public String getError() {
+        return error;
     }
 
-    public String getMessage() {
-        return message;
-    }
-
-    public void setMessage(String message) {
-        this.message = message;
+    public String getDescription() {
+        return description;
     }
 }

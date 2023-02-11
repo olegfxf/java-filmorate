@@ -4,7 +4,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import ru.yandex.practicum.javafilmorate.exception.ValidationException;
+import ru.yandex.practicum.javafilmorate.exception.ValidationException1;
 import ru.yandex.practicum.javafilmorate.model.Film;
 import ru.yandex.practicum.javafilmorate.model.User;
 
@@ -30,7 +30,7 @@ public abstract class Controller<E> {
     Long generateId = -1L;
 
     @PostMapping
-    public E create(E data) throws ValidationException {
+    public E create(E data) throws ValidationException1 {
         generateId = (data instanceof User) ? ((User) data).getId() : ((Film) data).getId();
         storages.put(generateId, data);
 
@@ -38,7 +38,7 @@ public abstract class Controller<E> {
     }
 
     @PutMapping
-    public E update(@RequestBody E userOrFilm) throws ValidationException {
+    public E update(@RequestBody E userOrFilm) throws ValidationException1 {
         generateId = (userOrFilm instanceof User) ? ((User) userOrFilm).getId() : ((Film) userOrFilm).getId();
         if (storages.keySet().stream().filter(e -> e == generateId).findFirst().isPresent())
             storages.put(generateId, userOrFilm);
