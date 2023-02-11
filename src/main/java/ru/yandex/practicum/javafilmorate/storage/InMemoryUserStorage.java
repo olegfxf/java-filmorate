@@ -1,14 +1,16 @@
 package ru.yandex.practicum.javafilmorate.storage;
 
+import lombok.extern.slf4j.Slf4j;
+import ru.yandex.practicum.javafilmorate.exception.ValidationException1;
 import ru.yandex.practicum.javafilmorate.model.User;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class InMemoryUserStorage implements UserStorage{
+@Slf4j
+public class InMemoryUserStorage implements UserStorage {
     public final HashMap<Long, User> storages = new HashMap<>();
-
 
 
     Long generateId = -1L;
@@ -22,16 +24,25 @@ public class InMemoryUserStorage implements UserStorage{
     @Override
     public User create(User user) {
         generateId = user.getId();
-        storages.put(generateId, user);
 
+        if (storages.size() != 0)
+        if (storages.keySet().stream().filter(e -> e == generateId).findFirst().isPresent())
+            throw new ValidationException1("Пользователь " + user.getName() + " уже существует");
+
+        storages.put(generateId, user);
+        log.info("Creating user {}", user);
         return user;
     }
 
     @Override
     public User update(User user) {
         generateId = user.getId();
-        if (storages.keySet().stream().filter(e -> e == generateId).findFirst().isPresent())
-            storages.put(generateId, user);
+        //if (storages.keySet().stream().filter(e -> e == generateId).findFirst().isPresent())
+        storages.keySet().stream().filter(e -> e == generateId).findFirst()
+                .orElseThrow(() -> new ValidationException1("Пользователя " + user.getName() + " в списке пользователей нет"));
+
+        log.info("Пользователь " + user.getName() + " обновлен");
+        storages.put(generateId, user);
 
         return user;
     }

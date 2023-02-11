@@ -5,7 +5,7 @@ import org.springframework.web.bind.annotation.*;
 import ru.yandex.practicum.javafilmorate.exception.ValidationException1;
 import ru.yandex.practicum.javafilmorate.model.Film;
 import ru.yandex.practicum.javafilmorate.storage.InMemoryFilmStorage;
-
+import javax.validation.Valid;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -25,26 +25,15 @@ public class FilmController  {
 
     @PostMapping
     @ResponseBody
-    public Film create(@RequestBody final Film film) throws ValidationException1 {
+    public Film create(@Valid @RequestBody final Film film) throws ValidationException1 {
         validation(film);
         log.info("Creating film {}", film);
-        //return super.create(film);
         return filmStorage.create(film);
     }
 
     @PutMapping
-    public Film update(@RequestBody final Film film) throws ValidationException1 {
+    public Film update(@Valid @RequestBody final Film film) throws ValidationException1 {
         validation(film);
-//        for (Long idFilm : filmStorage.storages.keySet()) {
-//            if (idFilm.equals(film.getId())) {
-//                log.info("Update film {}", film);
-//                //return super.update(film);
-//                return filmStorage.update(film);
-//            }
-//        }
-//
-//
-//        throw new ValidationException1(" Фильм с наименованием " + film.getName() + " неизвестен");
         return filmStorage.update(film);
     }
 

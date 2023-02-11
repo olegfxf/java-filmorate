@@ -6,6 +6,7 @@ import ru.yandex.practicum.javafilmorate.exception.ValidationException1;
 import ru.yandex.practicum.javafilmorate.model.User;
 import ru.yandex.practicum.javafilmorate.storage.InMemoryUserStorage;
 
+import javax.validation.Valid;
 import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.List;
@@ -26,35 +27,16 @@ public class UserController {
 
     @PostMapping
     @ResponseBody
-    public User create(@RequestBody final User user) throws ValidationException1 {
+    public User create(@Valid @RequestBody final User user) throws ValidationException1 {
         validation(user);
-        if (inMemoryUserStorage.storages.size() != 0) {
-            for (Long idUser : inMemoryUserStorage.storages.keySet()) {
-                if (idUser.equals(user.getId())) {
-                    throw new ValidationException1("Пользователь " + user.getBirthday()
-                            + " уже существует");
-                }
-            }
-        }
-
-        log.info("Creating user {}", user);
-        //return super.create(user);
         return inMemoryUserStorage.create(user);
     }
 
     @PutMapping
     @ResponseBody
-    public User update(@RequestBody final User user) throws ValidationException1 {
+    public User update(@Valid @RequestBody final User user) throws ValidationException1 {
         validation(user);
-        HashMap<Long, User> users = inMemoryUserStorage.storages;
-        for (Long idUser : users.keySet()) {
-            if (idUser.equals(user.getId())) {
-                log.info("Пользователь " + user.getName() + " обновлен");
-                //return super.update(user);
-                return inMemoryUserStorage.update(user);
-            }
-        }
-        throw new ValidationException1("Пользователь " + user.getName() + " неизвестен");
+        return inMemoryUserStorage.update(user);
 
     }
 
