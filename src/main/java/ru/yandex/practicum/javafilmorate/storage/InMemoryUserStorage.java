@@ -1,6 +1,7 @@
 package ru.yandex.practicum.javafilmorate.storage;
 
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Component;
 import ru.yandex.practicum.javafilmorate.exception.ValidationException1;
 import ru.yandex.practicum.javafilmorate.model.User;
 
@@ -8,8 +9,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.stream.Collectors;
 
+@Component
 @Slf4j
 public class InMemoryUserStorage implements UserStorage {
+
     public final HashMap<Long, User> storages = new HashMap<>();
 
 
@@ -37,7 +40,7 @@ public class InMemoryUserStorage implements UserStorage {
     @Override
     public User update(User user) {
         generateId = user.getId();
-        //if (storages.keySet().stream().filter(e -> e == generateId).findFirst().isPresent())
+        storages.keySet().stream().forEach(e-> System.out.println(e));
         storages.keySet().stream().filter(e -> e == generateId).findFirst()
                 .orElseThrow(() -> new ValidationException1("Пользователя " + user.getName() + " в списке пользователей нет"));
 
@@ -51,4 +54,10 @@ public class InMemoryUserStorage implements UserStorage {
     public void deleteAll() {
         storages.clear();
     }
+
+
+    public User getById(Long id){
+        return storages.get(id);
+    }
+
 }
