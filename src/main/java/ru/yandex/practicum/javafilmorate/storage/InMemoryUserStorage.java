@@ -23,33 +23,29 @@ public class InMemoryUserStorage implements UserStorage {
 
     @Override
     public User getById(Long id) {
-        storages.keySet().stream().filter(e -> e == id).findFirst()
+        storages.keySet().stream().filter(e -> e.equals(id)).findFirst()
                 .orElseThrow(() -> new ValidationException404("Пользователя с id = " + id
                         + " в списке пользователей нет"));
+
         return storages.get(id);
     }
 
     @Override
     public User create(User user) {
-        //generateId = user.getId();
-user.setId(generateId++);
-
+        user.setId(generateId++);
         if (storages.size() != 0)
-        if (storages.keySet().stream().filter(e -> e == user.getId()).findFirst().isPresent())
-            throw new ValidationException500("Пользователь " + user.getName() + " уже существует");
-
+            if (storages.keySet().stream().filter(e -> e.equals(user.getId())).findFirst().isPresent())
+                throw new ValidationException500("Пользователь " + user.getName() + " уже существует");
         storages.put(user.getId(), user);
         log.info("Creating user {}", user);
+
         return user;
     }
 
     @Override
     public User update(User user) {
-        //generateId = user.getId();
-        storages.keySet().stream().forEach(e-> System.out.println(e));
-        storages.keySet().stream().filter(e -> e == user.getId()).findFirst()
+        storages.keySet().stream().filter(e -> e.equals(user.getId())).findFirst()
                 .orElseThrow(() -> new ValidationException500("Пользователя " + user.getName() + " в списке пользователей нет"));
-
         log.info("Пользователь " + user.getName() + " обновлен");
         storages.put(user.getId(), user);
 
@@ -60,7 +56,5 @@ user.setId(generateId++);
     public void deleteAll() {
         storages.clear();
     }
-
-
 
 }

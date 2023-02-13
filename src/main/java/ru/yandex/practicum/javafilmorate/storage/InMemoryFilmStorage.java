@@ -14,7 +14,6 @@ import java.util.stream.Collectors;
 public class InMemoryFilmStorage implements FilmStorage {
     public final HashMap<Long, Film> storages = new HashMap<>();
 
-
     Long generateId = 1L;
 
     @Override
@@ -25,10 +24,7 @@ public class InMemoryFilmStorage implements FilmStorage {
 
     @Override
     public Film create(Film film) {
-        //generateId = film.getId();
         film.setId(generateId++);
-
-        //storages.put(generateId, film);
         storages.put(film.getId(), film);
 
         return film;
@@ -36,17 +32,12 @@ public class InMemoryFilmStorage implements FilmStorage {
 
     @Override
     public Film update(Film film) throws ValidationException500 {
-        //generateId = film.getId();
-
-        // if (storages.keySet().stream().filter(e -> e == generateId).findFirst().isPresent())
-        storages.keySet().stream().filter(e -> e == film.getId()).findFirst()
+        storages.keySet().stream().filter(e -> e.equals(film.getId())).findFirst()
                 .orElseThrow(() -> new ValidationException500("Фильма " + film.getName() + " в списке фильмов нет"));
-
         log.info("Фильм " + film.getName() + " обновлен в списке фильмов");
         storages.put(film.getId(), film);
 
         return film;
-
     }
 
     @Override

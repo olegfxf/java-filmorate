@@ -4,6 +4,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.*;
+import ru.yandex.practicum.javafilmorate.exception.ValidationException400;
 import ru.yandex.practicum.javafilmorate.exception.ValidationException500;
 import ru.yandex.practicum.javafilmorate.model.User;
 import ru.yandex.practicum.javafilmorate.service.UserService;
@@ -12,9 +13,7 @@ import ru.yandex.practicum.javafilmorate.storage.InMemoryUserStorage;
 import javax.validation.Valid;
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
-import java.util.Set;
 
 @Component
 @RequestMapping("/users")
@@ -59,7 +58,7 @@ public class UserController {
 
     @PostMapping
     @ResponseBody
-    public User create(@Valid @RequestBody final User user) throws ValidationException500 {
+    public User create(@Valid @RequestBody final User user) throws ValidationException400 {
         validation(user);
         return inMemoryUserStorage.create(user);
     }
@@ -90,7 +89,7 @@ public class UserController {
 
 
 
-    void validation(User user) throws ValidationException500 {
+    void validation(User user) throws ValidationException400 {
         if (user.getName() == null || user.getName().isBlank()) {
             String userName = user.getLogin();
             //user.setId(2L);
@@ -99,20 +98,20 @@ public class UserController {
         }
 
         if (user.getEmail().isEmpty())
-            throw new ValidationException500("Вы не ввели email");
+            throw new ValidationException400("Вы не ввели email");
 
 
         if (user.getEmail().isEmpty() || !user.getEmail().contains("@"))
-            throw new ValidationException500("Неправильный email");
+            throw new ValidationException400("Неправильный email");
 
         if (user.getName().isBlank())
-            throw new ValidationException500("Введите имя пользователя");
+            throw new ValidationException400("Введите имя пользователя");
 
         if (user.getBirthday().isAfter(LocalDate.now()))
-            throw new ValidationException500("Неправильная дата рождения");
+            throw new ValidationException400("Неправильная дата рождения");
 
         if (user.getLogin().isEmpty() || user.getLogin().contains(" "))
-            throw new ValidationException500("Логин содержит пробел");
+            throw new ValidationException400("Логин содержит пробел");
 
 
     }

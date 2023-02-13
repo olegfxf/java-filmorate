@@ -33,8 +33,8 @@ class FilmControllerTest {
     void update() throws ValidationException500 {
         filmStorage.deleteAll();
         Film filmCreate = new Film().testFilm();
-        Long id = filmCreate.getId();
         filmStorage.create(filmCreate);
+        Long id = filmStorage.getAll().stream().map(e->e.getId()).findFirst().get();
 
         Film filmUpdate = new Film().testFilm();
         String userUpdateName = filmUpdate.getName();

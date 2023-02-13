@@ -14,9 +14,10 @@ import java.util.stream.Collectors;
 @RestControllerAdvice
 @Slf4j
 public class ErrorHandler {
+
     @ExceptionHandler
-    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
-    public ErrorResponse handleValidateException500(final ValidationException500 e) {
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public ErrorResponse handleValidateException400(final ValidationException400 e) {
         log.error(e.getMessage(), e);
         return new ErrorResponse("Ошибка данных", e.getMessage());
     }
@@ -27,6 +28,14 @@ public class ErrorHandler {
         log.error(e.getMessage(), e);
         return new ErrorResponse("Ошибка данных", e.getMessage());
     }
+
+    @ExceptionHandler
+    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+    public ErrorResponse handleValidateException500(final ValidationException500 e) {
+        log.error(e.getMessage(), e);
+        return new ErrorResponse("Ошибка данных", e.getMessage());
+    }
+
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)

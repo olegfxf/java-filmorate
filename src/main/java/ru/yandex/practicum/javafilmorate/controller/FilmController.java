@@ -4,6 +4,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.*;
+import ru.yandex.practicum.javafilmorate.exception.ValidationException400;
 import ru.yandex.practicum.javafilmorate.exception.ValidationException404;
 import ru.yandex.practicum.javafilmorate.exception.ValidationException500;
 import ru.yandex.practicum.javafilmorate.model.Film;
@@ -48,7 +49,7 @@ public class FilmController  {
 
     @PostMapping
     @ResponseBody
-    public Film create(@Valid @RequestBody final Film film) throws ValidationException500 {
+    public Film create(@Valid @RequestBody final Film film) throws ValidationException400 {
         validation(film);
         log.info("Creating film {}", film);
         return filmStorage.create(film);
@@ -83,19 +84,19 @@ public class FilmController  {
 
 
 
-    void validation(Film film) throws ValidationException500 {
+    void validation(Film film) throws ValidationException400 {
         if (film.getDescription().length() > 200)
-            throw new ValidationException500("Описание фильма содержит больше"
+            throw new ValidationException400("Описание фильма содержит больше"
                     + " 200 символов");
 
         if (film.getName().isBlank())
-            throw new ValidationException500("Введите наименование фильма");
+            throw new ValidationException400("Введите наименование фильма");
 
         if (film.getReleaseDate().isBefore(LocalDate.of(1895, 12, 28)))
-            throw new ValidationException500("Неправильная дата релиза");
+            throw new ValidationException400("Неправильная дата релиза");
 
         if (film.getDuration() < 0)
-            throw new ValidationException500("Отрицательная продолжительность"
+            throw new ValidationException400("Отрицательная продолжительность"
                     + " фильма");
     }
 

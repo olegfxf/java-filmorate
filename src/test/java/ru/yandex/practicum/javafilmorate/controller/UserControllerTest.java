@@ -33,8 +33,8 @@ class UserControllerTest {
     void update() {
         userStorage.deleteAll();
         User userCreate = new User().testUser();
-        Long id = userCreate.getId();
         userStorage.create(userCreate);
+        Long id = userStorage.getAll().stream().map(e->e.getId()).findFirst().get();
 
         User userUpdate = new User().testUser();
         String userUpdateName = userUpdate.getName();
