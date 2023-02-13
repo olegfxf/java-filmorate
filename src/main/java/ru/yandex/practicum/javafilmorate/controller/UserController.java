@@ -4,14 +4,15 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.*;
-import ru.yandex.practicum.javafilmorate.exception.ValidationException1;
+import ru.yandex.practicum.javafilmorate.exception.ValidationException500;
 import ru.yandex.practicum.javafilmorate.model.User;
 import ru.yandex.practicum.javafilmorate.service.UserService;
 import ru.yandex.practicum.javafilmorate.storage.InMemoryUserStorage;
 
 import javax.validation.Valid;
 import java.time.LocalDate;
-import java.util.HashMap;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.Set;
 
@@ -30,24 +31,46 @@ public class UserController {
     }
 
 
+    @GetMapping("/{id}")
+    @ResponseBody
+    public User getById(@PathVariable Long id) {
+        log.info("Выполнен запрос на вывод пользователя с id = " + id);
+        return inMemoryUserStorage.getById(id);
+    }
+
     @GetMapping
     @ResponseBody
-    public List<User> getAll() {
+    public ArrayList<User> getAll() {
         log.info("Выполнен запрос на вывод всех пользователей");
         return inMemoryUserStorage.getAll();
     }
 
 
+    @GetMapping("/{id}/friends")
+    @ResponseBody
+    public List<User> getAllFriends(@PathVariable Long id) {
+        return userService.getAllFriends(id);
+    }
+
+
+    @GetMapping("/{id}/friends/common/{otherId}")
+    @ResponseBody
+    public List<User> commonFriend(@PathVariable Long id, @PathVariable Long otherId) {
+        return userService.commonFriend(id, otherId);
+    }
+
+
+
     @PostMapping
     @ResponseBody
-    public User create(@Valid @RequestBody final User user) throws ValidationException1 {
+    public User create(@Valid @RequestBody final User user) throws ValidationException500 {
         validation(user);
         return inMemoryUserStorage.create(user);
     }
 
     @PutMapping
     @ResponseBody
-    public User update(@Valid @RequestBody final User user) throws ValidationException1 {
+    public User update(@Valid @RequestBody final User user) throws ValidationException500 {
         validation(user);
         return inMemoryUserStorage.update(user);
     }
@@ -57,6 +80,7 @@ public class UserController {
     @ResponseBody
     public User addFriend(@PathVariable Long id, @PathVariable Long friendId) {
         System.out.println(" qqqq " + friendId + " ffff " + id);
+
         return userService.addFriend(id, friendId);
     }
 
@@ -66,42 +90,32 @@ public class UserController {
         return userService.deleteFriend(id, friendId);
     }
 
-    @GetMapping("/{id}/friends")
-    @ResponseBody
-    public Set<Long> getALL(@PathVariable Long id) {
-        return userService.getALL(id);
-    }
-    @GetMapping("/{id}/friends/common/{otherId}")
-    @ResponseBody
-    public User commonFriend(@PathVariable Long id, @PathVariable Long otherId) {
-        System.out.println("eeeeeeeeeeeeeeeee " + id + " wwwwwwwwwwww " + otherId);
-        return (User) userService.commonFriend(id, otherId);
-    }
 
 
-    void validation(User user) throws ValidationException1 {
+
+    void validation(User user) throws ValidationException500 {
         if (user.getName() == null || user.getName().isBlank()) {
             String userName = user.getLogin();
-            user.setId(2L);
+            //user.setId(2L);
             user.setName(userName);
             log.info("Новое имя пользователя стало: " + userName);
         }
 
         if (user.getEmail().isEmpty())
-            throw new ValidationException1("Вы не ввели email");
+            throw new ValidationException500("Вы не ввели email");
 
 
         if (user.getEmail().isEmpty() || !user.getEmail().contains("@"))
-            throw new ValidationException1("Неправильный email");
+            throw new ValidationException500("Неправильный email");
 
         if (user.getName().isBlank())
-            throw new ValidationException1("Введите имя пользователя");
+            throw new ValidationException500("Введите имя пользователя");
 
         if (user.getBirthday().isAfter(LocalDate.now()))
-            throw new ValidationException1("Неправильная дата рождения");
+            throw new ValidationException500("Неправильная дата рождения");
 
         if (user.getLogin().isEmpty() || user.getLogin().contains(" "))
-            throw new ValidationException1("Логин содержит пробел");
+            throw new ValidationException500("Логин содержит пробел");
 
 
     }

@@ -1,7 +1,7 @@
 package ru.yandex.practicum.javafilmorate.controller;
 
 import org.junit.jupiter.api.Test;
-import ru.yandex.practicum.javafilmorate.exception.ValidationException1;
+import ru.yandex.practicum.javafilmorate.exception.ValidationException500;
 import ru.yandex.practicum.javafilmorate.model.Film;
 import ru.yandex.practicum.javafilmorate.storage.InMemoryFilmStorage;
 
@@ -30,7 +30,7 @@ class FilmControllerTest {
     }
 
     @Test
-    void update() throws ValidationException1 {
+    void update() throws ValidationException500 {
         filmStorage.deleteAll();
         Film filmCreate = new Film().testFilm();
         Long id = filmCreate.getId();

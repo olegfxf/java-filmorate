@@ -26,7 +26,7 @@ import java.util.Set;
 public class User {
 
     private static Uid uid = new Uid();
-    private Long id = uid.getUid();
+    private Long id ;//= uid.getUid();
     @NotBlank(message = "login содержит пробел")
     @NotNull(message = "login обязателен")
     private String login;

@@ -1,6 +1,7 @@
 package ru.yandex.practicum.javafilmorate.service;
 
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 import ru.yandex.practicum.javafilmorate.model.Film;
 import ru.yandex.practicum.javafilmorate.storage.InMemoryFilmStorage;
 
@@ -8,7 +9,7 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
-@Component
+@Service
 public class FilmService {
     InMemoryFilmStorage inMemoryFilmStorage;
 

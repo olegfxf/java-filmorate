@@ -16,7 +16,14 @@ import java.util.stream.Collectors;
 public class ErrorHandler {
     @ExceptionHandler
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
-    public ErrorResponse handleValidateException1(final ValidationException1 e) {
+    public ErrorResponse handleValidateException500(final ValidationException500 e) {
+        log.error(e.getMessage(), e);
+        return new ErrorResponse("Ошибка данных", e.getMessage());
+    }
+
+    @ExceptionHandler
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    public ErrorResponse handleValidateException404(final ValidationException404 e) {
         log.error(e.getMessage(), e);
         return new ErrorResponse("Ошибка данных", e.getMessage());
     }

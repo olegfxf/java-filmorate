@@ -2,9 +2,11 @@ package ru.yandex.practicum.javafilmorate.storage;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
-import ru.yandex.practicum.javafilmorate.exception.ValidationException1;
+import ru.yandex.practicum.javafilmorate.exception.ValidationException404;
+import ru.yandex.practicum.javafilmorate.exception.ValidationException500;
 import ru.yandex.practicum.javafilmorate.model.User;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -16,36 +18,44 @@ public class InMemoryUserStorage implements UserStorage {
     public final HashMap<Long, User> storages = new HashMap<>();
 
 
-    Long generateId = -1L;
+    Long generateId = 1L;
 
     @Override
-    public List<User> getAll() {
-        //log.info("Выполнен запрос на вывод всех пользователей");
-        return storages.values().stream().collect(Collectors.toList());
+    public ArrayList<User> getAll() {
+        return (ArrayList<User>) storages.values().stream().collect(Collectors.toList());
+    }
+
+    @Override
+    public User getById(Long id) {
+        storages.keySet().stream().filter(e -> e == id).findFirst()
+                .orElseThrow(() -> new ValidationException404("Пользователя с id = " + id
+                        + " в списке пользователей нет"));
+        return storages.get(id);
     }
 
     @Override
     public User create(User user) {
-        generateId = user.getId();
+        //generateId = user.getId();
+user.setId(generateId++);
 
         if (storages.size() != 0)
-        if (storages.keySet().stream().filter(e -> e == generateId).findFirst().isPresent())
-            throw new ValidationException1("Пользователь " + user.getName() + " уже существует");
+        if (storages.keySet().stream().filter(e -> e == user.getId()).findFirst().isPresent())
+            throw new ValidationException500("Пользователь " + user.getName() + " уже существует");
 
-        storages.put(generateId, user);
+        storages.put(user.getId(), user);
         log.info("Creating user {}", user);
         return user;
     }
 
     @Override
     public User update(User user) {
-        generateId = user.getId();
+        //generateId = user.getId();
         storages.keySet().stream().forEach(e-> System.out.println(e));
-        storages.keySet().stream().filter(e -> e == generateId).findFirst()
-                .orElseThrow(() -> new ValidationException1("Пользователя " + user.getName() + " в списке пользователей нет"));
+        storages.keySet().stream().filter(e -> e == user.getId()).findFirst()
+                .orElseThrow(() -> new ValidationException500("Пользователя " + user.getName() + " в списке пользователей нет"));
 
         log.info("Пользователь " + user.getName() + " обновлен");
-        storages.put(generateId, user);
+        storages.put(user.getId(), user);
 
         return user;
     }
@@ -56,8 +66,5 @@ public class InMemoryUserStorage implements UserStorage {
     }
 
 
-    public User getById(Long id){
-        return storages.get(id);
-    }
 
 }
