@@ -30,6 +30,12 @@ public class UserController {
         this.userService = userService;
     }
 
+    @GetMapping
+    @ResponseBody
+    public ArrayList<User> getAll() {
+        log.info("Выполнен запрос на вывод всех пользователей");
+        return inMemoryUserStorage.getAll();
+    }
 
     @GetMapping("/{id}")
     @ResponseBody
@@ -38,27 +44,17 @@ public class UserController {
         return inMemoryUserStorage.getById(id);
     }
 
-    @GetMapping
-    @ResponseBody
-    public ArrayList<User> getAll() {
-        log.info("Выполнен запрос на вывод всех пользователей");
-        return inMemoryUserStorage.getAll();
-    }
-
-
     @GetMapping("/{id}/friends")
     @ResponseBody
     public List<User> getAllFriends(@PathVariable Long id) {
         return userService.getAllFriends(id);
     }
 
-
     @GetMapping("/{id}/friends/common/{otherId}")
     @ResponseBody
     public List<User> commonFriend(@PathVariable Long id, @PathVariable Long otherId) {
         return userService.commonFriend(id, otherId);
     }
-
 
 
     @PostMapping
@@ -68,13 +64,13 @@ public class UserController {
         return inMemoryUserStorage.create(user);
     }
 
+
     @PutMapping
     @ResponseBody
     public User update(@Valid @RequestBody final User user) throws ValidationException500 {
         validation(user);
         return inMemoryUserStorage.update(user);
     }
-
 
     @PutMapping("/{id}/friends/{friendId}")
     @ResponseBody
@@ -83,6 +79,7 @@ public class UserController {
 
         return userService.addFriend(id, friendId);
     }
+
 
     @DeleteMapping("/{id}/friends/{friendId}")
     @ResponseBody

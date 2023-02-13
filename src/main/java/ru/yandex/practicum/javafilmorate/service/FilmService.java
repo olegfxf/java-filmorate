@@ -2,12 +2,14 @@ package ru.yandex.practicum.javafilmorate.service;
 
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
+import ru.yandex.practicum.javafilmorate.exception.ValidationException404;
 import ru.yandex.practicum.javafilmorate.model.Film;
 import ru.yandex.practicum.javafilmorate.storage.InMemoryFilmStorage;
 
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class FilmService {
@@ -27,21 +29,21 @@ public class FilmService {
     }
 
     public Film deleteLike(final Long id, final Long userId) {
+        if (id < 0 || userId < 0)
+            throw new ValidationException404("Отрицательный идентификатор");
         Film film = inMemoryFilmStorage.storages.get(id);
         film.likes.remove(userId);
-        inMemoryFilmStorage.storages.remove(id, film);
+        inMemoryFilmStorage.storages.put(id, film);
 
         return film;
     }
 
     public List<Film> popularLike(Integer count) {
         List<Film> films = inMemoryFilmStorage.getAll();
-        Collections.sort(films);
-
+        Collections.reverse(films);
         count = (films.size()>count)?count:films.size();
-        films.subList(0, count);
 
-        return films;
+        return films.stream().limit(count).collect(Collectors.toList());
     }
 
 }

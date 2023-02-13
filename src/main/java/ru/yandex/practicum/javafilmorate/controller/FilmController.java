@@ -76,7 +76,7 @@ public class FilmController  {
     @GetMapping("/popular")
     @ResponseBody
     public List<Film> popularLike(@RequestParam(value = "count", defaultValue = "10", required = false) Integer count) {
-        System.out.println("qqqq "+count);
+        System.out.println("qqqq "+ count);
         return filmService.popularLike(count);
     }
 

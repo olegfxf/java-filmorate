@@ -8,16 +8,12 @@ import ru.yandex.practicum.javafilmorate.model.User;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.stream.Collectors;
 
 @Component
 @Slf4j
 public class InMemoryUserStorage implements UserStorage {
-
     public final HashMap<Long, User> storages = new HashMap<>();
-
-
     Long generateId = 1L;
 
     @Override
