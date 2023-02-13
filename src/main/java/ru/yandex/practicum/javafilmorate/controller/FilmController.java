@@ -19,15 +19,15 @@ import java.util.List;
 @RequestMapping("/films")
 @RestController
 @Slf4j
-public class FilmController  {
+public class FilmController {
     InMemoryFilmStorage filmStorage;
     FilmService filmService;
+
     @Autowired
     public FilmController(InMemoryFilmStorage filmStorage, FilmService filmService) {
         this.filmStorage = filmStorage;
-        this.filmService= filmService;
+        this.filmService = filmService;
     }
-
 
 
     @GetMapping
@@ -41,7 +41,7 @@ public class FilmController  {
     @GetMapping("/{id}")
     @ResponseBody
     public Film getById(@PathVariable Long id) {
-        filmStorage.storages.keySet().stream().filter(e->e==id).findFirst()
+        filmStorage.storages.keySet().stream().filter(e -> e == id).findFirst()
                 .orElseThrow(() -> new ValidationException404("Фильма в списке фильмов нет"));
         log.info("Выполнен запрос на вывод фильма с id = " + id);
         return filmStorage.storages.get(id);
@@ -64,7 +64,6 @@ public class FilmController  {
     @PutMapping("/{id}/like/{userId}")
     @ResponseBody
     public Film addLike(@PathVariable Long id, @PathVariable Long userId) {
-        System.out.println(" qqqq " + userId + " ffff " + id);
         return filmService.addLike(id, userId);
     }
 
@@ -77,11 +76,8 @@ public class FilmController  {
     @GetMapping("/popular")
     @ResponseBody
     public List<Film> popularLike(@RequestParam(value = "count", defaultValue = "10", required = false) Integer count) {
-        System.out.println("qqqq "+ count);
         return filmService.popularLike(count);
     }
-
-
 
 
     void validation(Film film) throws ValidationException400 {

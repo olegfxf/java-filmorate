@@ -1,12 +1,10 @@
 package ru.yandex.practicum.javafilmorate.service;
 
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 import ru.yandex.practicum.javafilmorate.exception.ValidationException404;
 import ru.yandex.practicum.javafilmorate.model.Film;
 import ru.yandex.practicum.javafilmorate.storage.InMemoryFilmStorage;
 
-import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -41,7 +39,7 @@ public class FilmService {
     public List<Film> popularLike(Integer count) {
         List<Film> films = inMemoryFilmStorage.getAll();
         Collections.reverse(films);
-        count = (films.size()>count)?count:films.size();
+        count = (films.size() > count) ? count : films.size();
 
         return films.stream().limit(count).collect(Collectors.toList());
     }

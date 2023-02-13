@@ -3,12 +3,13 @@ package ru.yandex.practicum.javafilmorate.model;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
-import ru.yandex.practicum.javafilmorate.constraints.BirthDate;
 import ru.yandex.practicum.javafilmorate.constraints.ReleaseDate;
 import ru.yandex.practicum.javafilmorate.util.Random;
 
-
-import javax.validation.constraints.*;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Positive;
+import javax.validation.constraints.Size;
 import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.Set;

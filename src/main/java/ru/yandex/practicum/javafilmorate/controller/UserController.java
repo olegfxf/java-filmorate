@@ -74,8 +74,6 @@ public class UserController {
     @PutMapping("/{id}/friends/{friendId}")
     @ResponseBody
     public User addFriend(@PathVariable Long id, @PathVariable Long friendId) {
-        System.out.println(" qqqq " + friendId + " ffff " + id);
-
         return userService.addFriend(id, friendId);
     }
 
@@ -87,12 +85,9 @@ public class UserController {
     }
 
 
-
-
     void validation(User user) throws ValidationException400 {
         if (user.getName() == null || user.getName().isBlank()) {
             String userName = user.getLogin();
-            //user.setId(2L);
             user.setName(userName);
             log.info("Новое имя пользователя стало: " + userName);
         }

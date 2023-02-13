@@ -12,11 +12,13 @@ import javax.validation.Constraint;
 import javax.validation.Payload;
 
 @Constraint(validatedBy = BirthDateValidator.class)
-@Target({ TYPE, FIELD, ANNOTATION_TYPE })
+@Target({TYPE, FIELD, ANNOTATION_TYPE})
 @Retention(RUNTIME)
 @Documented
 public @interface BirthDate {
     String message() default "{ru.yandex.practicum.javafilmorate.constraints.BirthDate.message}";
-    Class <?> [] groups() default {};
-    Class <? extends Payload> [] payload() default {};
+
+    Class<?>[] groups() default {};
+
+    Class<? extends Payload>[] payload() default {};
 }

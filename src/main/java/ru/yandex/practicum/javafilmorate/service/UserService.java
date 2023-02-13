@@ -12,9 +12,9 @@ import java.util.stream.Collectors;
 @Service
 public class UserService {
     InMemoryUserStorage inMemoryUserStorage;
+
     @Autowired
-    public UserService(InMemoryUserStorage inMemoryUserStorage)
-    {
+    public UserService(InMemoryUserStorage inMemoryUserStorage) {
         this.inMemoryUserStorage = inMemoryUserStorage;
     }
 
@@ -41,7 +41,7 @@ public class UserService {
 
     public List<User> getAllFriends(final Long id) {
         Set<Long> idUsers = inMemoryUserStorage.getById(id).friends;
-        List<User> users = inMemoryUserStorage.getAll().stream().filter(e->idUsers.contains(e.getId())).collect(Collectors.toList());
+        List<User> users = inMemoryUserStorage.getAll().stream().filter(e -> idUsers.contains(e.getId())).collect(Collectors.toList());
         return users;
     }
 
@@ -55,8 +55,7 @@ public class UserService {
         Set<Long> friendsOther = userOther.friends;
         friends2.retainAll(friendsOther);
 
-        System.out.println("wwwwwwwwwwwwwwwww common" + friends2.toString());
-        List<User> users = inMemoryUserStorage.getAll().stream().filter(e->friends2.contains(e.getId())).collect(Collectors.toList());
+        List<User> users = inMemoryUserStorage.getAll().stream().filter(e -> friends2.contains(e.getId())).collect(Collectors.toList());
 
         return users;
 

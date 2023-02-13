@@ -12,11 +12,13 @@ import javax.validation.Constraint;
 import javax.validation.Payload;
 
 @Constraint(validatedBy = ReleaseDateValidator.class)
-@Target({ TYPE, FIELD, ANNOTATION_TYPE })
+@Target({TYPE, FIELD, ANNOTATION_TYPE})
 @Retention(RUNTIME)
 @Documented
 public @interface ReleaseDate {
     String message() default "{ru.yandex.practicum.javafilmorate.constraints.ReleaseDate.message}";
-    Class <?> [] groups() default {};
-    Class <? extends Payload> [] payload() default {};
+
+    Class<?>[] groups() default {};
+
+    Class<? extends Payload>[] payload() default {};
 }
