@@ -2,6 +2,7 @@ package ru.yandex.practicum.javafilmorate.storage;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
+import ru.yandex.practicum.javafilmorate.exception.ValidationException404;
 import ru.yandex.practicum.javafilmorate.exception.ValidationException500;
 import ru.yandex.practicum.javafilmorate.model.Film;
 
@@ -9,17 +10,26 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.stream.Collectors;
 
+
 @Component
 @Slf4j
 public class InMemoryFilmStorage implements FilmStorage {
     public final HashMap<Long, Film> storages = new HashMap<>();
-
     Long generateId = 1L;
 
     @Override
     public List<Film> getAll() {
-        //log.info("Выполнен запрос на вывод всех пользователей");
+        log.info("Выполнен запрос на вывод всех фильмов");
         return storages.values().stream().collect(Collectors.toList());
+    }
+
+    @Override
+    public Film getById(Long id) {
+        storages.keySet().stream().filter(e -> e.equals(id)).findFirst()
+                .orElseThrow(() -> new ValidationException404("Фильма с id = " + id
+                        + " в списке фильмов нет"));
+
+        return storages.get(id);
     }
 
     @Override

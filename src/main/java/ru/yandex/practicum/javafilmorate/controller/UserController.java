@@ -8,11 +8,10 @@ import ru.yandex.practicum.javafilmorate.exception.ValidationException400;
 import ru.yandex.practicum.javafilmorate.exception.ValidationException500;
 import ru.yandex.practicum.javafilmorate.model.User;
 import ru.yandex.practicum.javafilmorate.service.UserService;
-import ru.yandex.practicum.javafilmorate.storage.InMemoryUserStorage;
+import ru.yandex.practicum.javafilmorate.storage.UserStorage;
 
 import javax.validation.Valid;
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.List;
 
 @Component
@@ -20,27 +19,27 @@ import java.util.List;
 @RestController
 @Slf4j
 public class UserController {
-    InMemoryUserStorage inMemoryUserStorage;// = new InMemoryUserStorage();
+    UserStorage userStorage;
     UserService userService;
 
     @Autowired
-    public UserController(InMemoryUserStorage inMemoryUserStorage, UserService userService) {
-        this.inMemoryUserStorage = inMemoryUserStorage;
+    public UserController(UserStorage userStorage, UserService userService) {
+        this.userStorage = userStorage;
         this.userService = userService;
     }
 
     @GetMapping
     @ResponseBody
-    public ArrayList<User> getAll() {
+    public List<User> getAll() {
         log.info("Выполнен запрос на вывод всех пользователей");
-        return inMemoryUserStorage.getAll();
+        return userStorage.getAll();
     }
 
     @GetMapping("/{id}")
     @ResponseBody
     public User getById(@PathVariable Long id) {
         log.info("Выполнен запрос на вывод пользователя с id = " + id);
-        return inMemoryUserStorage.getById(id);
+        return userStorage.getById(id);
     }
 
     @GetMapping("/{id}/friends")
@@ -60,7 +59,7 @@ public class UserController {
     @ResponseBody
     public User create(@Valid @RequestBody final User user) throws ValidationException400 {
         validation(user);
-        return inMemoryUserStorage.create(user);
+        return userStorage.create(user);
     }
 
 
@@ -68,7 +67,7 @@ public class UserController {
     @ResponseBody
     public User update(@Valid @RequestBody final User user) throws ValidationException500 {
         validation(user);
-        return inMemoryUserStorage.update(user);
+        return userStorage.update(user);
     }
 
     @PutMapping("/{id}/friends/{friendId}")

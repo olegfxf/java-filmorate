@@ -22,6 +22,17 @@ class FilmControllerTest {
     }
 
     @Test
+    void getById() {
+        filmStorage.deleteAll();
+        Film filmCreate = new Film().testFilm();
+        String filmName = filmCreate.getName();
+
+        filmStorage.create(filmCreate);
+        Long id = filmStorage.getAll().stream().map(e -> e.getId()).findFirst().get();
+        assertEquals(filmName, filmStorage.getById(id).getName(), "фильм не найден");
+    }
+
+    @Test
     void create() {
         filmStorage.deleteAll();
         Film filmCreate = new Film().testFilm();
@@ -34,7 +45,7 @@ class FilmControllerTest {
         filmStorage.deleteAll();
         Film filmCreate = new Film().testFilm();
         filmStorage.create(filmCreate);
-        Long id = filmStorage.getAll().stream().map(e->e.getId()).findFirst().get();
+        Long id = filmStorage.getAll().stream().map(e -> e.getId()).findFirst().get();
 
         Film filmUpdate = new Film().testFilm();
         String userUpdateName = filmUpdate.getName();
@@ -42,6 +53,19 @@ class FilmControllerTest {
         filmStorage.update(filmUpdate);
         ArrayList<Film> films = (ArrayList<Film>) filmStorage.getAll().stream().collect(Collectors.toList());
         assertEquals(userUpdateName, films.get(0).getName(), "Обновление фильма прошло не успешно ");
+    }
+
+    @Test
+    void deleteAll() {
+        filmStorage.deleteAll();
+        Film filmCreate = new Film().testFilm();
+        filmStorage.create(filmCreate);
+        Film filmCreate2 = new Film().testFilm();
+        filmStorage.create(filmCreate2);
+        filmStorage.deleteAll();
+        assertEquals(0, filmStorage.getAll().size(), "список фильмов не пустой");
+
+
     }
 
 }

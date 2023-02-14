@@ -9,7 +9,7 @@ import ru.yandex.practicum.javafilmorate.exception.ValidationException404;
 import ru.yandex.practicum.javafilmorate.exception.ValidationException500;
 import ru.yandex.practicum.javafilmorate.model.Film;
 import ru.yandex.practicum.javafilmorate.service.FilmService;
-import ru.yandex.practicum.javafilmorate.storage.InMemoryFilmStorage;
+import ru.yandex.practicum.javafilmorate.storage.FilmStorage;
 
 import javax.validation.Valid;
 import java.time.LocalDate;
@@ -20,11 +20,11 @@ import java.util.List;
 @RestController
 @Slf4j
 public class FilmController {
-    InMemoryFilmStorage filmStorage;
+    FilmStorage filmStorage;
     FilmService filmService;
 
     @Autowired
-    public FilmController(InMemoryFilmStorage filmStorage, FilmService filmService) {
+    public FilmController(FilmStorage filmStorage, FilmService filmService) {
         this.filmStorage = filmStorage;
         this.filmService = filmService;
     }
@@ -33,7 +33,7 @@ public class FilmController {
     @GetMapping
     @ResponseBody
     public List<Film> getAll() {
-        log.info("Выполнен запрос на вывод всех пользователей");
+        log.info("Выполнен запрос на вывод всех фильмов");
         return filmStorage.getAll();
     }
 
@@ -41,17 +41,17 @@ public class FilmController {
     @GetMapping("/{id}")
     @ResponseBody
     public Film getById(@PathVariable Long id) {
-        filmStorage.storages.keySet().stream().filter(e -> e == id).findFirst()
+        filmStorage.getAll().stream().filter(e -> e.getId() == id).findFirst()
                 .orElseThrow(() -> new ValidationException404("Фильма в списке фильмов нет"));
         log.info("Выполнен запрос на вывод фильма с id = " + id);
-        return filmStorage.storages.get(id);
+        return filmStorage.getById(id);
     }
 
     @PostMapping
     @ResponseBody
     public Film create(@Valid @RequestBody final Film film) throws ValidationException400 {
         validation(film);
-        log.info("Creating film {}", film);
+        log.info("Создан фильм {}", film);
         return filmStorage.create(film);
     }
 

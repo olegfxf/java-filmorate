@@ -1,8 +1,8 @@
 package ru.yandex.practicum.javafilmorate.constraints;
 
-import java.time.LocalDate;
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
+import java.time.LocalDate;
 
 public class BirthDateValidator implements ConstraintValidator<BirthDate, LocalDate> {
     @Override

@@ -12,9 +12,8 @@ import ru.yandex.practicum.javafilmorate.custom.JsonDateSerializer;
 import ru.yandex.practicum.javafilmorate.util.Random;
 
 import javax.validation.constraints.Email;
-import javax.validation.constraints.NotNull;
 import javax.validation.constraints.NotBlank;
-
+import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.Set;
