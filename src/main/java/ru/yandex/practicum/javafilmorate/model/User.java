@@ -3,9 +3,11 @@ package ru.yandex.practicum.javafilmorate.model;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
+import lombok.experimental.FieldDefaults;
 import ru.yandex.practicum.javafilmorate.constraints.BirthDate;
 import ru.yandex.practicum.javafilmorate.custom.JsonDateDeserializer;
 import ru.yandex.practicum.javafilmorate.custom.JsonDateSerializer;
@@ -22,26 +24,42 @@ import java.util.Set;
 @Getter
 @Setter
 @ToString
+@FieldDefaults( level= AccessLevel.PRIVATE)
 public class User {
 
-    private static Uid uid = new Uid();
-    private Long id;
+    static Uid uid = new Uid();
+    Long id;
     @NotBlank(message = "login содержит пробел")
     @NotNull(message = "login обязателен")
-    private String login;
-    private String name;
+    String login;
+    String name;
     @NotBlank(message = "адрес электронной почты содержит пробел")
     @NotNull(message = "адрес электронной почты обязателен")
     @Email(message = "некорректный адрес электронной почты")
-    private String email;
-    public Set<Long> friends = new HashSet<>();
+    String email;
+    Set<Long> friends = new HashSet<>();
+
+    public Set<Long> friends() {
+        return friends;
+    }
+    public Set<Long> getFriends() { return friends; }
+    public void addFriends(Long friendId) {
+        friends.add(friendId);
+    }
+    public void addById(Long id) {
+        friends.add(id);
+    }
+    public void deleteFriend(Long friendId) {
+        friends.remove(friendId);
+    }
+
 
     @NotNull(message = "дата дня рождения обязательна")
     @BirthDate(message = "дата дня рождения должна быть меньше текущей даты")
     @JsonFormat(pattern = "yyyy-MM-dd")
     @JsonSerialize(using = JsonDateSerializer.class)
     @JsonDeserialize(using = JsonDateDeserializer.class)
-    private LocalDate birthday;
+    LocalDate birthday;
 
     public User testUser() {
         User user = new User();

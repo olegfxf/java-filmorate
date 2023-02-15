@@ -4,4 +4,8 @@ public class ValidationException500 extends RuntimeException {
     public ValidationException500(String message) {
         super(message);
     }
+    @Override
+    public Throwable fillInStackTrace() {
+        return this;
+    }
 }

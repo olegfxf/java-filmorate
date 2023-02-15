@@ -1,5 +1,6 @@
 package ru.yandex.practicum.javafilmorate.service;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ru.yandex.practicum.javafilmorate.exception.ValidationException404;
 import ru.yandex.practicum.javafilmorate.model.Film;
@@ -11,16 +12,16 @@ import java.util.stream.Collectors;
 
 @Service
 public class FilmService {
-    FilmStorage filmStorage;
+    private FilmStorage filmStorage;
 
-
+    @Autowired
     public FilmService(FilmStorage filmStorage) {
         this.filmStorage = filmStorage;
     }
 
     public Film addLike(final Long id, final Long userId) {
         Film film = filmStorage.getById(id);
-        film.likes.add(userId);
+        film.addLike(userId);
         filmStorage.update(film);
 
         return film;
@@ -30,7 +31,7 @@ public class FilmService {
         if (id < 0 || userId < 0)
             throw new ValidationException404("Отрицательный идентификатор");
         Film film = filmStorage.getById(id);
-        film.likes.remove(userId);
+        film.deleteLike(userId);
         filmStorage.update(film);
 
         return film;

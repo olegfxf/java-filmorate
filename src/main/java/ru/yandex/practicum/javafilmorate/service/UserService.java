@@ -13,7 +13,7 @@ import java.util.stream.Collectors;
 
 @Service
 public class UserService {
-    UserStorage userStorage;
+    private UserStorage userStorage;
 
     @Autowired
     public UserService(UserStorage userStorage) {
@@ -24,25 +24,26 @@ public class UserService {
         if (id < 0 || friendId < 0)
             throw new ValidationException404("Отрицательный идентификатор");
         User user = userStorage.getById(id);
-        user.friends.add(friendId);
+        user.addFriends(friendId);
         userStorage.update(user);
 
         user = userStorage.getById(friendId);
-        user.friends.add(id);
+        user.addById(id);
         userStorage.update(user);
         return userStorage.getById(id);
+
     }
 
     public User deleteFriend(final Long id, final Long friendId) {
         User user = userStorage.getById(id);
-        user.friends.remove(friendId);
+        user.deleteFriend(friendId);
         userStorage.update(user);
 
         return user;
     }
 
     public List<User> getAllFriends(final Long id) {
-        Set<Long> idUsers = userStorage.getById(id).friends;
+        Set<Long> idUsers = userStorage.getById(id).friends();
         List<User> users = userStorage.getAll().stream().filter(e -> idUsers.contains(e.getId())).collect(Collectors.toList());
         return users;
     }
@@ -51,15 +52,17 @@ public class UserService {
         User user = userStorage.getById(id);
         User userOther = userStorage.getById(otherId);
 
-        Set<Long> friends = user.friends;
+        Set<Long> friends = user.getFriends();
         Set<Long> friends2 = new HashSet<>(friends);
 
-        Set<Long> friendsOther = userOther.friends;
+        Set<Long> friendsOther = userOther.getFriends();
         friends2.retainAll(friendsOther);
 
-        List<User> users = userStorage.getAll().stream().filter(e -> friends2.contains(e.getId())).collect(Collectors.toList());
-
-        return users;
+        return  friends2.stream()
+                .filter(friendsOther::contains)
+                .map(userId -> userStorage.getById(userId))
+                .collect(Collectors.toList());
 
     }
+
 }

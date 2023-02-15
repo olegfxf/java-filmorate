@@ -14,7 +14,7 @@ import java.util.stream.Collectors;
 @Component
 @Slf4j
 public class InMemoryFilmStorage implements FilmStorage {
-    public final HashMap<Long, Film> storages = new HashMap<>();
+    private final HashMap<Long, Film> storages = new HashMap<>();
     Long generateId = 1L;
 
     @Override

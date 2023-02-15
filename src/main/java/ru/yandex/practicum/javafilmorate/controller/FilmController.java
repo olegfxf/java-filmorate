@@ -20,8 +20,8 @@ import java.util.List;
 @RestController
 @Slf4j
 public class FilmController {
-    FilmStorage filmStorage;
-    FilmService filmService;
+    private FilmStorage filmStorage;
+    private FilmService filmService;
 
     @Autowired
     public FilmController(FilmStorage filmStorage, FilmService filmService) {

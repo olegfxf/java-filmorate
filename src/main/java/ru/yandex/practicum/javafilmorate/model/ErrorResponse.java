@@ -1,8 +1,12 @@
 package ru.yandex.practicum.javafilmorate.model;
 
+import lombok.AccessLevel;
+import lombok.experimental.FieldDefaults;
+
+@FieldDefaults(level = AccessLevel.PRIVATE)
 public class ErrorResponse {
-    private String error;
-    private String description;
+    String error;
+    String description;
 
     public ErrorResponse(String error, String description) {
         this.error = error;

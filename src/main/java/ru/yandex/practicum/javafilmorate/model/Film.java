@@ -1,8 +1,10 @@
 package ru.yandex.practicum.javafilmorate.model;
 
+import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
+import lombok.experimental.FieldDefaults;
 import ru.yandex.practicum.javafilmorate.constraints.ReleaseDate;
 import ru.yandex.practicum.javafilmorate.util.Random;
 
@@ -17,21 +19,31 @@ import java.util.Set;
 @Getter
 @Setter
 @ToString
+@FieldDefaults(level = AccessLevel.PRIVATE)
 public class Film implements Comparable<Film> {
 
-    private static Uid uid = new Uid();
-    private Long id = uid.getUid();
+    static Uid uid = new Uid();
+    Long id = uid.getUid();
     @NotBlank(message = "наименование фильма не должно быть пустым")
     @NotNull(message = "наименование фильма обязательно")
-    private String name;
+    String name;
     @Size(max = 200, message = "описание фильма не может иметь больше 200 символов")
-    private String description;
+    String description;
     @NotNull(message = "дата выпуска релиза обязательна")
     @ReleaseDate(message = "дата выпуска релиза должна быть после 28.12.1895")
-    private LocalDate releaseDate;
+    LocalDate releaseDate;
     @Positive(message = "продолжительность фильма должна быть положительной")
-    private Integer duration;
-    public Set<Long> likes = new HashSet<>();
+    Integer duration;
+    Set<Long> likes = new HashSet<>();
+
+
+    public void addLike(Long userId) {
+        likes.add(userId);
+    }
+
+    public void deleteLike(Long userId) {
+        likes.remove(userId);
+    }
 
     public Film testFilm() {
         Film film = new Film();
