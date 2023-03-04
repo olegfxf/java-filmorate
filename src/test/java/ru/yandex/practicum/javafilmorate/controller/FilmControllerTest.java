@@ -1,115 +1,71 @@
 package ru.yandex.practicum.javafilmorate.controller;
 
 import org.junit.jupiter.api.Test;
-import ru.yandex.practicum.javafilmorate.exception.ValidationException;
+import ru.yandex.practicum.javafilmorate.exception.ValidationException500;
 import ru.yandex.practicum.javafilmorate.model.Film;
-import ru.yandex.practicum.javafilmorate.service.Manager;
+import ru.yandex.practicum.javafilmorate.storage.InMemoryFilmStorage;
 
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.stream.Collectors;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class FilmControllerTest {
-    Manager<Film> manager = new Manager<>();
-    FilmController filmController =new FilmController();
+    InMemoryFilmStorage filmStorage = new InMemoryFilmStorage();
 
     @Test
-    void getAllFilm() throws ValidationException {
-        manager.deleteAll();
+    void getAll() {
+        filmStorage.deleteAll();
         Film film = new Film().testFilm();
-        try {
-            filmController.create(film);
-        } catch (Exception e) { }
-        int size = filmController.getAllFilms().getBody().size();
-        if (size != 1)
-            throw new ValidationException("Длина списка фильмов не равна 1");
+        filmStorage.create(film);
+        assertEquals(1, filmStorage.getAll().size(), "Длина списка фильмов не равна 1");
+    }
+
+    @Test
+    void getById() {
+        filmStorage.deleteAll();
+        Film filmCreate = new Film().testFilm();
+        String filmName = filmCreate.getName();
+
+        filmStorage.create(filmCreate);
+        Long id = filmStorage.getAll().stream().map(e -> e.getId()).findFirst().get();
+        assertEquals(filmName, filmStorage.getById(id).getName(), "фильм не найден");
     }
 
     @Test
     void create() {
-
-        manager.deleteAll();
+        filmStorage.deleteAll();
         Film filmCreate = new Film().testFilm();
-        try {
-            filmController.create(filmCreate);
-        }catch (Exception e){
-            assertEquals(1, manager.findAll().size(), "Фильм не добавлен в список фильмов");
-        }
-
-
-        manager.deleteAll();
-        Film filmWithEmptyName = new Film().testFilm();
-        filmWithEmptyName.setName(null);
-        try {
-            filmController.create(filmWithEmptyName);
-        }catch (Exception e){
-            assertEquals(0, manager.findAll().size(),"Фильм без названия внесен в список фильмов");
-        }
-
-
-        manager.deleteAll();
-        Film filmFailDescription = new Film().testFilm();
-        filmFailDescription.setDescription("Пятеро друзей ( комик-группа «Шарло»), приезжают в город Бризуль. "
-             +   "Здесь они хотят разыскать господина Огюста Куглова, который задолжал им деньги, а именно 20 миллионов. "
-             + "о Куглов, который за время «своего отсутствия», стал кандидатом Коломбани.");
-        try {
-            filmController.create(filmFailDescription);
-        }catch (Exception e){
-            assertEquals(0, manager.findAll().size(),"В список фильмов ошибочно вставлен фильм"
-                    + " с описанием более 200 символов");
-        }
-
-        manager.deleteAll();
-        Film filmReleaseDate = new Film().testFilm();
-        filmReleaseDate.setReleaseDate(LocalDate.of(1890,3,25));
-        try {
-            filmController.create(filmReleaseDate);
-        }catch (Exception e){
-            assertEquals(0,manager.findAll().size(), "В список фильмов ошибочно вставлен фильм"
-                    + " с датой выхода 1890-03-25");
-        }
-
-        manager.deleteAll();
-        Film filmDuration = new Film().testFilm();
-        filmDuration.setDuration(-100);
-        try {
-            filmController.create(filmDuration);
-        }catch (Exception e){
-            assertEquals(0,manager.findAll().size(),"В список фильмов ошибочно вставлен фильм"
-                    + " с отрицательным временем");
-        }
+        filmStorage.create(filmCreate);
+        assertEquals(1, filmStorage.getAll().size(), "Фильм не добавлен в список фильмов");
     }
 
     @Test
-    void update() {
-
-        manager.deleteAll();
+    void update() throws ValidationException500 {
+        filmStorage.deleteAll();
         Film filmCreate = new Film().testFilm();
-        Long id = filmCreate.getId();
-        try {
-            filmController.create(filmCreate);
-        }catch (Exception e){}
+        filmStorage.create(filmCreate);
+        Long id = filmStorage.getAll().stream().map(e -> e.getId()).findFirst().get();
 
         Film filmUpdate = new Film().testFilm();
         String userUpdateName = filmUpdate.getName();
         filmUpdate.setId(id);
-        ArrayList<Film> films = (ArrayList<Film>) manager.findAll().stream().collect(Collectors.toList());
-        try {
-            filmController.update(filmUpdate);
-        }catch (Exception e) {
-            assertEquals(userUpdateName, films.get(0).getName(), "Обновление фильма прошло не успешно ");
-        }
+        filmStorage.update(filmUpdate);
+        ArrayList<Film> films = (ArrayList<Film>) filmStorage.getAll().stream().collect(Collectors.toList());
+        assertEquals(userUpdateName, films.get(0).getName(), "Обновление фильма прошло не успешно ");
+    }
 
-        manager.deleteAll();
-        Film filmUpdateUnknown = new Film().testFilm();
-        filmUpdateUnknown.setId(10000L);
-        try {
-            filmController.create(filmUpdateUnknown);
-        }catch (Exception e) {
-            assertEquals(0, manager.findAll().size(), "Обновился фильм с несуществующим идентификатором");
-        }
+    @Test
+    void deleteAll() {
+        filmStorage.deleteAll();
+        Film filmCreate = new Film().testFilm();
+        filmStorage.create(filmCreate);
+        Film filmCreate2 = new Film().testFilm();
+        filmStorage.create(filmCreate2);
+        filmStorage.deleteAll();
+        assertEquals(0, filmStorage.getAll().size(), "список фильмов не пустой");
+
+
     }
 
 }

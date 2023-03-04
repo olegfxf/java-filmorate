@@ -1,74 +1,111 @@
 package ru.yandex.practicum.javafilmorate.controller;
 
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.ResponseEntity;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.*;
-import ru.yandex.practicum.javafilmorate.exception.ValidationException;
+import ru.yandex.practicum.javafilmorate.exception.ValidationException400;
+import ru.yandex.practicum.javafilmorate.exception.ValidationException500;
 import ru.yandex.practicum.javafilmorate.model.User;
+import ru.yandex.practicum.javafilmorate.service.UserService;
+import ru.yandex.practicum.javafilmorate.storage.UserStorage;
 
+import javax.validation.Valid;
 import java.time.LocalDate;
-import java.util.HashMap;
+import java.util.List;
 
+@Component
 @RequestMapping("/users")
 @RestController
 @Slf4j
-public class UserController extends Controller<User> {
-    @PostMapping
-    public ResponseEntity<?> create(@RequestBody final User user) throws ValidationException {
-        validation(user);
-        if (storages.size() != 0) {
-            for (Long idUser : storages.keySet()) {
-                if (idUser.equals(user.getId())) {
-                    throw new ValidationException("Пользователь " + user.getBirthday()
-                            + " уже существует");
-                }
-            }
-        }
+public class UserController {
+    private UserStorage userStorage;
+    private UserService userService;
 
-        log.info("Creating user {}", user);
-        return super.create(user);
+    @Autowired
+    public UserController(UserStorage userStorage, UserService userService) {
+        this.userStorage = userStorage;
+        this.userService = userService;
     }
+
+    @GetMapping
+    @ResponseBody
+    public List<User> getAll() {
+        log.info("Выполнен запрос на вывод всех пользователей");
+        return userStorage.getAll();
+    }
+
+    @GetMapping("/{id}")
+    @ResponseBody
+    public User getById(@PathVariable Long id) {
+        log.info("Выполнен запрос на вывод пользователя с id = " + id);
+        return userStorage.getById(id);
+    }
+
+    @GetMapping("/{id}/friends")
+    @ResponseBody
+    public List<User> getAllFriends(@PathVariable Long id) {
+        return userService.getAllFriends(id);
+    }
+
+    @GetMapping("/{id}/friends/common/{otherId}")
+    @ResponseBody
+    public List<User> commonFriend(@PathVariable Long id, @PathVariable Long otherId) {
+        return userService.commonFriend(id, otherId);
+    }
+
+
+    @PostMapping
+    @ResponseBody
+    public User create(@Valid @RequestBody final User user) throws ValidationException400 {
+        validation(user);
+        return userStorage.create(user);
+    }
+
 
     @PutMapping
-    public ResponseEntity<?> update(@RequestBody final User user) throws ValidationException {
+    @ResponseBody
+    public User update(@Valid @RequestBody final User user) throws ValidationException500 {
         validation(user);
-        HashMap<Long, User> users = super.getStorages();
-        for (Long idUser : users.keySet()) {
-            if (idUser.equals(user.getId())) {
-                log.info("Пользователь " + user.getName() + " обновлен");
-                return super.update(user);
-            }
-        }
-        throw new ValidationException("Пользователь " + user.getName() + " неизвестен");
+        return userStorage.update(user);
+    }
 
+    @PutMapping("/{id}/friends/{friendId}")
+    @ResponseBody
+    public User addFriend(@PathVariable Long id, @PathVariable Long friendId) {
+        return userService.addFriend(id, friendId);
     }
 
 
-    void validation(User user) throws ValidationException {
-        HashMap<Long, User> users = super.getStorages();
+    @DeleteMapping("/{id}/friends/{friendId}")
+    @ResponseBody
+    public User deleteFriend(@PathVariable Long id, @PathVariable Long friendId) {
+        return userService.deleteFriend(id, friendId);
+    }
 
-        if (user.getName() == null) {
+
+    void validation(User user) throws ValidationException400 {
+        if (user.getName() == null || user.getName().isBlank()) {
             String userName = user.getLogin();
-            user.setId(2L);
             user.setName(userName);
             log.info("Новое имя пользователя стало: " + userName);
         }
 
         if (user.getEmail().isEmpty())
-            throw new ValidationException("Вы не ввели email");
+            throw new ValidationException400("Вы не ввели email");
 
 
         if (user.getEmail().isEmpty() || !user.getEmail().contains("@"))
-            throw new ValidationException("Неправильный email");
+            throw new ValidationException400("Неправильный email");
 
         if (user.getName().isBlank())
-            throw new ValidationException("Введите имя пользователя");
+            throw new ValidationException400("Введите имя пользователя");
 
         if (user.getBirthday().isAfter(LocalDate.now()))
-            throw new ValidationException("Неправильная дата рождения");
+            throw new ValidationException400("Неправильная дата рождения");
 
         if (user.getLogin().isEmpty() || user.getLogin().contains(" "))
-            throw new ValidationException("Логин содержит пробел");
+            throw new ValidationException400("Логин содержит пробел");
 
 
     }
